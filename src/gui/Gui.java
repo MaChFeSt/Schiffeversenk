@@ -16,6 +16,7 @@ public class Gui extends Thread {
 					boardbottom = new JPanel(),
 					boardleft = new JPanel(),
 					boardright = new JPanel();
+	public Host host1;
 	 
 	 
 	
@@ -221,23 +222,52 @@ public class Gui extends Thread {
 	     	            	panelnw.setVisible(false);
 	     	            	JPanel panelhost = new JPanel();
 	     	            	panelhost.setVisible(true);
-	     	            	
-	     	            	Host host1 = new Host(4444);
+
+	     	            	host1 = new Host(4444);
 							String ip = host1.getIP();
+							host1.start();
 	   	        		 
 	     	            	JLabel labelhost = new JLabel("Your IP adress: " + ip);
 	     	            	panelhost.add(labelhost);
-	     	            	
-	     	            	host1.start();
-	     	            	
-	     	            	
-	   	        		 
-			        		boardpanel.add(panelhost);
+							boardpanel.add(panelhost);
+							panelhost.setVisible(true);
+
+							SwingUtilities.invokeLater(new Runnable() {
+								@Override
+								public void run() {
+									warteAufConnection(host1);
+
+									if(host1.isConnected()){
+										panel.setVisible(false);
+										new Screen();
+										frame.setVisible(false);
+									}
+								}
+							});
+
 	     	            }
-	        		 });
+        		 });
+
+				ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
+				JButton menu = new JButton(iconmenu);
+				menu.setIcon(iconmenu);
+				menu.setContentAreaFilled(false);
+				menu.setBorderPainted(false);
+				menu.setOpaque(true);
+				panelnw.add(menu);
+
+				menu.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e)
+					{
+						panelnw.setVisible(false);
+						panel.setVisible(true);
+					}
+				});
+
         		 
             }
         });
+
 	 
 	//****************ACTION LISTENER SETTINGS********************
 	 settings.addActionListener(new ActionListener() {
@@ -300,15 +330,40 @@ public class Gui extends Thread {
 	 frame.pack();
 }
 
-public void run() {
-	
+	public void warteAufConnection(Host host){
+
+		int sec = 120;
+		System.out.print("warte auf Verbindung");
+		int j = 0;
+		for(int i = 0; i < sec; i++){
+			try{
+				if(j == 4){
+					System.out.println();
+					System.out.print("warte auf Verbindung");
+					j = 0;
+				}
+				sleep(1000);
+				System.out.print(".");
+				j++;
+
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+			if(host1.isConnected() == true){
+				break;
+			}
+		}
 }
 
-	
-//************************MAIN METHODE*******************
-public static void main(String[] args) {
-	
-	new Gui();
+	public void run() {
 
-}
+	}
+
+	
+	//************************MAIN METHODE*******************
+	public static void main(String[] args) {
+			new Gui();
+
+
+	}
 }
