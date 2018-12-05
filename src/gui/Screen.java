@@ -12,49 +12,127 @@ public class Screen{
 	
 	// ****** KLASSE FÜR SPIELFELD
 	@SuppressWarnings("serial")
-	class Grid extends JPanel {
+	class Grid extends JPanel implements ActionListener {
 		
 		JPanel panel;
+		JLabel label;
 		int size;
+		Object[][] grid;
+		
 		public Grid(int size) {
 			
 			// *** PANEL ANLEGEN ***
 			this.size=size;
 			JPanel panel = new JPanel(new GridLayout(size,size));
 			panel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-			panel.setPreferredSize(new Dimension(550,550));
+			panel.setPreferredSize(new Dimension(520,520));
 			panel.setOpaque(false);
 
 			
-			//*** BILD RESIZABLE ***
+
+			//*** BILD RESIZABLE ICON FÜR GRID ***
 			ImageIcon water = new ImageIcon(Grid.class.getResource("wasser.png"));
-			Image waterimage = water.getImage().getScaledInstance(550/size, 550/size, Image.SCALE_SMOOTH);
+			Image waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
+			ImageIcon waterred = new ImageIcon(Grid.class.getResource("wasserrot.png"));
+			Image waterimagered = waterred.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
+			ImageIcon watergreen = new ImageIcon(Grid.class.getResource("wassergreen.png"));
+			Image waterimagegreen = watergreen.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 			
+			
+			// ********** GRID BAUEN *********
 			Object[][] grid = new Object[size][size];
 			for (int i = 0; i < grid.length; i++) {
 				for (int j = 0; j < grid[i].length; j++) {
-					final JLabel label = new JLabel();
+					JLabel label = new JLabel();
 				    label.setIcon(new ImageIcon(waterimage));
 				    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
 				    panel.add(label);
 				    add(panel);
-					grid[i][j] = 1;
+					grid[i][j] = 0;
+					label.setOpaque(true);
+		            
 					
+			// ********** MOUSE LISTENER FÜR GRID ************
+		            label.addMouseListener(new MouseAdapter() {
+		                public void mouseClicked(MouseEvent e){
+		                    //label.setBackground(Color.red);
+		                }
+		                @Override
+		                public void mouseEntered(MouseEvent e) {
+		                    
+		                	//label.setBackground(Color.black);
+		                	int col;
+		                	int row;
+				        	int cellwidth = 520/size;
+				        	col = e.getX() / cellwidth;
+				        	row = e.getY()  / cellwidth;
+				        	
+				        	if (grid[col][row].hashCode() == 0) {	  
+				        		//label.setBackground(Color.green);
+				        		label.setIcon(null);
+				        		label.setIcon(new ImageIcon(waterimagegreen));
+				        	}
+				        	if (grid[col][row].hashCode() == 1 || grid[col][row].hashCode() == 2) {	  
+				        		label.setIcon(null);
+				        		label.setIcon(new ImageIcon(waterimagered));
+				        	}
+		                }
+
+		                @Override
+		                public void mouseExited(MouseEvent e) {
+		                    label.setIcon(null);
+		                    label.setIcon(new ImageIcon(waterimage));
+		                }
+		        		@Override
+		        		public void mousePressed(MouseEvent e) {
+		        			// TODO Auto-generated method stub
+		        			
+		        		}
+
+		        		@Override
+		        		public void mouseReleased(MouseEvent e) {
+		        			// TODO Auto-generated method stub
+		        			
+		        		}
+		            });
 				}
 			}
-//			//*** GRID ANLEGEN ***
-//			for (int i =0; i<(size*size); i++){
-//			    final JLabel label = new JLabel();
-//			    label.setIcon(new ImageIcon(waterimage));
-//			    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
-//			    panel.add(label);
-//			    add(panel);       // <<<<<<---------- NICHT VERGESSEN!
-//			}
+		}	
+			
+			
+
+
+		
+		public void mouseEntered(MouseEvent e) {
+			ImageIcon waterred = new ImageIcon(Grid.class.getResource("wasserrot.png"));
+			Image waterimagered = waterred.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
+			JLabel label = (JLabel)e.getSource();
+			label.setIcon(new ImageIcon(waterimagered));
 		}
+
+		
+		public void mouseExited(MouseEvent e) {
+			JLabel label = (JLabel)e.getSource();
+			label.setBackground(Color.MAGENTA);
+			
+		}
+
+
+		
+		
 		
 		public  int boardSize() {
 			return size;
 		}
+
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+
+	
 	}	
 	 
 
@@ -184,7 +262,7 @@ public class Screen{
 	
 	
 	// frame
-	//public JFrame frame = new JFrame();
+	public JFrame frame = new JFrame();
 
 	
 	// Hier wird der Spielbildschirm zusammengebaut
@@ -204,12 +282,9 @@ public class Screen{
 	
 	public Screen() { 
 		
-		JFrame frame = new JFrame();
-		
 		//Frame erstellen
 		frame.setLayout(new BorderLayout());
-		frame.setSize(1280,720);
-		frame.setLocationRelativeTo(null);
+
 		
 		//Layout Boardpanel
 		boardpanel.setLayout(new BorderLayout());
@@ -223,24 +298,18 @@ public class Screen{
 	  	// *** BOARD EINFÜGEN ***
 	  	//boardmain.add(new Grid(10), BorderLayout.WEST);
 	  	boardmain.setOpaque(false);
-	  	boardmain.setPreferredSize(new Dimension(1000,550));
+	  	boardmain.setPreferredSize(new Dimension(1000,520));
 		
 		
 	  	
 	  	//einzelne Borderpanels in das Spielfeld panel
 		boardpanel.add(boardtop, BorderLayout.NORTH);
-		//boardtop.add(placeholder1, BorderLayout.NORTH);
-		boardtop.add(topText, BorderLayout.CENTER);
-		topText.setLayout(new FlowLayout());
-		topText.setOpaque(false);
+		boardtop.setPreferredSize(new Dimension (1280,70));
+		boardtop.add(topText);
 		topText.add(new SetGridSize());
-		topText.setPreferredSize(new Dimension(1280,100));
-//		placeholder1.setPreferredSize(new Dimension(1280,10));
-//		placeholder1.setOpaque(false);
 
-		//boardtop.setOpaque(false);
-		//boardtop.repaint();
-		boardtop.setPreferredSize(new Dimension (1280,100));
+		
+		
 		
 		boardpanel.add(boardbottom, BorderLayout.SOUTH);
 		//boardbottom.setOpaque(false);
@@ -262,16 +331,18 @@ public class Screen{
 		frame.setContentPane(boardpanel);
 		frame.setResizable(false);
 		frame.pack();
+		frame.setSize(1280,720);
+		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 	}
-//	
-//	  
-//   
-//	public static void main(String[] args) {
-//		
-//		
-//		
-//
+	
+	  
+   
+	//public static void main(String[] args) {
+		
+		
+		
+
 //		   SwingUtilities.invokeLater(new Runnable(){
 //			   public void run() {
 //				   new Screen();

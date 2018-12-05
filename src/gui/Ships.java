@@ -17,6 +17,7 @@ import gui.Screen.Grid;
  
 
 
+@SuppressWarnings("serial")
 public class Ships extends JPanel  implements  MouseMotionListener {
 	
 	
@@ -27,10 +28,11 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 	Grid spielfeld;
 	schiffliste schifftyp;
 	
-	public Ships(int boardsize) {
+	
+	public Ships(int size) {
 		JPanel shipUi = new JPanel(new GridLayout(7,2));
-		this.boardsize = boardsize;
-		shipUi.setSize(new Dimension(100,550));
+		this.boardsize = size;
+		shipUi.setSize(new Dimension(100,520));
 		
 	      schiffliste p = new schiffliste();
 	      schiffliste[] schifftyp = (p.getship(boardsize));
@@ -82,7 +84,6 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 	
 	 
 
-	@SuppressWarnings("serial")
 	public class Waka extends JPanel{
 		
 		
@@ -94,14 +95,52 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 			for (int i = 0; i < ob.length; i++) {
 				for (int j = 0; j < ob[i].length; j++) {
 					JLabel label = new JLabel();
-				    label.setPreferredSize(new Dimension (550/boardsize,550/boardsize));;
+				    label.setPreferredSize(new Dimension (520/boardsize,520/boardsize));;
 				    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-				    label.setBackground(Color.GREEN);
+				    label.setBackground(new Color(95,189,148));
 				    label.setOpaque(true);
 				    panel.add(label);
 				    add(panel);
-				}
+				    label.setTransferHandler(new TransferHandler("Icon"));
+				    
+				    MouseListener ml = new MouseListener() {
+				    
+				   
+		                public void mouseClicked(MouseEvent e){
+		                    
+		                }
+		                @Override
+		                public void mouseEntered(MouseEvent e) {
+		                    
+				        
+		                }
+
+		                @Override
+		                public void mouseExited(MouseEvent e) {
+		             
+		                }
+		        		
+		        		public void mousePressed(MouseEvent e) {
+		        			
+		        			
+		        			JComponent jc = (JComponent)e.getSource();
+		        			TransferHandler th = jc. getTransferHandler();
+		        			th.exportAsDrag(jc, e, TransferHandler.COPY);
+		        			
+		        		}
+
+		        		@Override
+		        		public void mouseReleased(MouseEvent e) {
+		        			// TODO Auto-generated method stub
+		        			
+		        		}
+				    }; 
+				    label.addMouseListener(ml);
+				}	
+				
 			}
+			
+			
 			add(panel);
 			int anzahl = schifftyp[0].anzahl;
 			JLabel count= new JLabel("WAKA : " + "0" + "  of  " + anzahl );
@@ -119,9 +158,9 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 			for (int i = 0; i < ob.length; i++) {
 				for (int j = 0; j < ob[i].length; j++) {
 					JLabel label = new JLabel();
-				    label.setPreferredSize(new Dimension (550/boardsize,550/boardsize));;
+				    label.setPreferredSize(new Dimension (520/boardsize,520/boardsize));;
 				    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-				    label.setBackground(Color.BLUE);
+				    label.setBackground(new Color(81, 219, 223));
 				    label.setOpaque(true);
 				    panel.add(label);
 				    add(panel);
@@ -144,9 +183,9 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 			for (int i = 0; i < ob.length; i++) {
 				for (int j = 0; j < ob[i].length; j++) {
 					JLabel label = new JLabel();
-				    label.setPreferredSize(new Dimension (550/boardsize,550/boardsize));;
+				    label.setPreferredSize(new Dimension (520/boardsize,520/boardsize));;
 				    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-				    label.setBackground(Color.RED);
+				    label.setBackground(new Color(240,123,5));
 				    label.setOpaque(true);
 				    panel.add(label);
 				    add(panel);
@@ -170,7 +209,7 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 			for (int i = 0; i < ob.length; i++) {
 				for (int j = 0; j < ob[i].length; j++) {
 					JLabel label = new JLabel();
-				    label.setPreferredSize(new Dimension (550/boardsize,550/boardsize));;
+				    label.setPreferredSize(new Dimension (520/boardsize,520/boardsize));;
 				    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 				    label.setBackground(Color.DARK_GRAY);
 				    label.setOpaque(true);
@@ -195,9 +234,9 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 			for (int i = 0; i < ob.length; i++) {
 				for (int j = 0; j < ob[i].length; j++) {
 					JLabel label = new JLabel();
-				    label.setPreferredSize(new Dimension (550/boardsize,550/boardsize));;
+				    label.setPreferredSize(new Dimension (520/boardsize,520/boardsize));;
 				    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-				    label.setBackground(Color.MAGENTA);
+				    label.setBackground(new Color(245,95,135));
 				    label.setOpaque(true);
 				    panel.add(label);
 				    add(panel);
@@ -220,9 +259,9 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 			for (int i = 0; i < ob.length; i++) {
 				for (int j = 0; j < ob[i].length; j++) {
 					JLabel label = new JLabel();
-				    label.setPreferredSize(new Dimension (550/boardsize,550/boardsize));;
+				    label.setPreferredSize(new Dimension (520/boardsize,520/boardsize));;
 				    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
-				    label.setBackground(Color.GRAY);
+				    label.setBackground(new Color(51,102,0));
 				    label.setOpaque(true);
 				    panel.add(label);
 				    add(panel);
