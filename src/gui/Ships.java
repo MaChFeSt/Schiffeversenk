@@ -27,7 +27,7 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 	int count;
 	Grid spielfeld;
 	schiffliste schifftyp;
-	
+
 	
 	public Ships(int size) {
 		JPanel shipUi = new JPanel(new GridLayout(7,2));
@@ -102,40 +102,29 @@ public class Ships extends JPanel  implements  MouseMotionListener {
 				    panel.add(label);
 				    add(panel);
 				    label.setTransferHandler(new TransferHandler("Icon"));
-				    
-				    MouseListener ml = new MouseListener() {
-				    
-				   
-		                public void mouseClicked(MouseEvent e){
-		                    
-		                }
-		                @Override
-		                public void mouseEntered(MouseEvent e) {
-		                    
-				        
-		                }
 
-		                @Override
-		                public void mouseExited(MouseEvent e) {
-		             
-		                }
-		        		
-		        		public void mousePressed(MouseEvent e) {
-		        			
-		        			
-		        			JComponent jc = (JComponent)e.getSource();
-		        			TransferHandler th = jc. getTransferHandler();
-		        			th.exportAsDrag(jc, e, TransferHandler.COPY);
-		        			
-		        		}
+				    MouseMotionListener ml = new MouseMotionListener(){
 
-		        		@Override
-		        		public void mouseReleased(MouseEvent e) {
-		        			// TODO Auto-generated method stub
-		        			
-		        		}
-				    }; 
-				    label.addMouseListener(ml);
+						@Override
+						public void mouseDragged(MouseEvent e) {
+							Component child = e.getComponent();
+							Point p = e.getPoint();
+							p = SwingUtilities.convertPoint(e.getComponent(), p, e.getComponent().getParent());
+
+							int myXX = p.x - (child.getWidth() / 2);
+							int myYY = p.y - (child.getHeight() / 2);
+							child.setLocation(myXX, myYY);
+							repaint();
+						}
+
+						@Override
+						public void mouseMoved(MouseEvent e) {
+
+						}
+
+
+				    };
+				    label.addMouseMotionListener(ml);
 				}	
 				
 			}
