@@ -11,11 +11,10 @@ public class Gui extends Thread {
 	
 	
 	public JPanel boardpanel = new JPanel();
-	
-	public JPanel	boardtop = new JPanel(),
-					boardbottom = new JPanel(),
-					boardleft = new JPanel(),
-					boardright = new JPanel();
+	public JPanel boardtop = new JPanel(),
+				  boardbottom = new JPanel(),
+				  boardleft = new JPanel(),
+				  boardright = new JPanel();
 	public Host host1;
 	 
 	 
@@ -32,7 +31,6 @@ public class Gui extends Thread {
 	 frame.setResizable(false);
 	
 	 
-
 	 
 	 //****************JPANEL LOGO********************
 	 JPanel panellogo = new JPanel();
@@ -76,7 +74,7 @@ public class Gui extends Thread {
 		boardpanel.add(boardright, BorderLayout.EAST);
 		boardright.setOpaque(false);
 		boardright.setPreferredSize(new Dimension (490,400));
-//		add(boardpanel);
+		
 		
 		//****************JPANEL NAME********************
 		 boardpanel.add(boardbottom, BorderLayout.SOUTH);
@@ -268,6 +266,51 @@ public class Gui extends Thread {
             }
         });
 
+	//****************ACTION LISTENER HELP********************
+	 help.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e)
+            {
+            	panel.setVisible(false);
+            	JPanel panelhelp = new JPanel();
+        		panelhelp.setVisible(true);
+        		boardpanel.add(panelhelp);
+        		
+      
+        		JLabel howtoplay= new JLabel("How to play Battle PIRATE Ships:");
+        		JLabel howtoplay1= new JLabel("Each player places ships on the left grid.");
+        		JLabel howtoplay2= new JLabel("Ships are not allowed to be placed");
+        		JLabel howtoplay3= new JLabel("next to each other. After that you take turns");
+        		JLabel howtoplay4= new JLabel("firing shots by clicking on grid coordinates.");
+        		JLabel howtoplay5= new JLabel("Your goal is to shoot down enemy ships");
+        		JLabel howtoplay6= new JLabel("before he shoots down yours");
+        		panelhelp.add(howtoplay);
+        		panelhelp.add(howtoplay1); 
+        		panelhelp.add(howtoplay2);
+        		panelhelp.add(howtoplay3);
+        		panelhelp.add(howtoplay4);
+        		panelhelp.add(howtoplay5);
+        		panelhelp.add(howtoplay6);
+        		
+        		
+        		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
+	        	JButton menu = new JButton(iconmenu);
+       		 		menu.setIcon(iconmenu);
+       		 		menu.setContentAreaFilled(false);
+       		 		menu.setBorderPainted(false);
+       		 		menu.setOpaque(true);
+	        	panelhelp.add(menu);
+	        		 
+        		menu.addActionListener(new ActionListener() {
+     	            public void actionPerformed(ActionEvent e)
+     	            {
+     	            	panelhelp.setVisible(false);
+     	            	panel.setVisible(true);
+     	            }
+        		 });
+        		
+            }
+       });
+	 
 	 
 	//****************ACTION LISTENER SETTINGS********************
 	 settings.addActionListener(new ActionListener() {
@@ -276,15 +319,81 @@ public class Gui extends Thread {
             	panel.setVisible(false);
             	JPanel panelsettings = new JPanel();
         		panelsettings.setVisible(true);
-
         		boardpanel.add(panelsettings);
-            	
+        		
         		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
-	        	JButton menu = new JButton(iconmenu);
+            	JButton menu = new JButton(iconmenu);
        		 		menu.setIcon(iconmenu);
        		 		menu.setContentAreaFilled(false);
        		 		menu.setBorderPainted(false);
        		 		menu.setOpaque(true);
+        		
+        		
+        		ImageIcon iconlightmode = new ImageIcon(Gui.class.getResource("lightmode.png"));
+	        	JButton lightmode = new JButton(iconlightmode);
+	        		lightmode.setIcon(iconlightmode);
+   		 			lightmode.setContentAreaFilled(false);
+   		 			lightmode.setBorderPainted(false);
+   		 			lightmode.setOpaque(true);
+   		 		
+   		 		ImageIcon icondarkmode = new ImageIcon(Gui.class.getResource("darkmode.png"));
+   		 		JButton darkmode = new JButton(icondarkmode);
+   		 			darkmode.setIcon(icondarkmode);
+   		 			darkmode.setContentAreaFilled(false);
+   		 			darkmode.setBorderPainted(false);
+   		 			darkmode.setOpaque(true);
+   		 		
+   		 		
+   		 	lightmode.addActionListener(new ActionListener() {
+ 	            public void actionPerformed(ActionEvent e)
+ 	            {
+ 	            	
+ 	            	Color customColor = new Color(85,100,191);
+ 	            	boardtop.setBackground(customColor);
+ 	            	
+ 	            	boardbottom.setBackground(null);
+ 	            	boardpanel.setBackground(null);
+ 	            	panelsettings.setBackground(null);
+ 	            	panelname.setBackground(null);
+ 	            	versusai.setBackground(null);
+ 	            	network.setBackground(null);
+ 	            	settings.setBackground(null);
+ 	            	help.setBackground(null);
+ 	            	quit.setBackground(null);
+ 	            	darkmode.setBackground(null);
+ 	            	lightmode.setBackground(null);
+ 	            	menu.setBackground(null);
+ 	            	
+ 	            }
+    		 });
+   		 	
+   		 		
+   		 darkmode.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent e)
+	            {
+	            	
+	            	Color customColor1 = new Color(1,1,1);
+	           	 	boardtop.setBackground(customColor1);
+	            	
+	            	boardbottom.setBackground(Color.DARK_GRAY);
+	            	boardpanel.setBackground(Color.DARK_GRAY);
+	            	panelsettings.setBackground(Color.DARK_GRAY);
+//					panelhelp.setBackground(Color.DARK_GRAY);
+	            	panelname.setBackground(Color.DARK_GRAY);
+	            	versusai.setBackground(Color.DARK_GRAY);
+	            	network.setBackground(Color.DARK_GRAY);
+	            	settings.setBackground(Color.DARK_GRAY);
+	            	help.setBackground(Color.DARK_GRAY);
+	            	quit.setBackground(Color.DARK_GRAY);
+	            	darkmode.setBackground(Color.DARK_GRAY);
+	            	lightmode.setBackground(Color.DARK_GRAY);
+	            	menu.setBackground(Color.DARK_GRAY);
+	            }
+		 });
+        		
+        	
+   		 		panelsettings.add(lightmode);
+   		 		panelsettings.add(darkmode);
 	        	panelsettings.add(menu);
 	        		 
         		menu.addActionListener(new ActionListener() {
@@ -294,36 +403,14 @@ public class Gui extends Thread {
      	            	panel.setVisible(true);
      	            }
         		 });
+        		
+        		
             }
        });
 	 
-	//****************ACTION LISTENER HELP********************
-		 help.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent e)
-	            {
-	            	panel.setVisible(false);
-	            	JPanel panelhelp = new JPanel();
-	        		panelhelp.setVisible(true);
-
-	        		boardpanel.add(panelhelp);
-	            	
-	        		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
-		        	JButton menu = new JButton(iconmenu);
-	       		 		menu.setIcon(iconmenu);
-	       		 		menu.setContentAreaFilled(false);
-	       		 		menu.setBorderPainted(false);
-	       		 		menu.setOpaque(true);
-		        	panelhelp.add(menu);
-		        		 
-	        		menu.addActionListener(new ActionListener() {
-	     	            public void actionPerformed(ActionEvent e)
-	     	            {
-	     	            	panelhelp.setVisible(false);
-	     	            	panel.setVisible(true);
-	     	            }
-	        		 });
-	            }
-	       });
+	
+		 
+		 
 	 
 	 frame.add(boardpanel);
 	 frame.setPreferredSize(new Dimension(1280,720));
