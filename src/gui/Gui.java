@@ -29,9 +29,9 @@ public class Gui extends Thread {
 	 frame.setVisible(true);
 	 frame.setLocationRelativeTo(null);
 	 frame.setResizable(false);
+
+ 	
 	
-	 
-	 
 	 //****************JPANEL LOGO********************
 	 JPanel panellogo = new JPanel();
 	 boardtop.add(panellogo);
@@ -83,6 +83,10 @@ public class Gui extends Thread {
 		 JPanel panelname = new JPanel();
 		 boardbottom.add(panelname);	 
 		 JLabel name = new JLabel("Created by: Stefanie, Feyzanur, Christian, Marcus");
+		 Font schriftart = new Font("SansSerif", Font.BOLD, 15 );
+		 name.setFont(schriftart);
+		 name.setForeground(Color.BLACK);
+		 panelname.setOpaque(false);
 		 panelname.add(name);
 		
 	 	 
@@ -92,7 +96,7 @@ public class Gui extends Thread {
 	 versusai.setIcon(iconversusai);
 	 versusai.setContentAreaFilled(false);
 	 versusai.setBorderPainted(false);
-	 versusai.setOpaque(true);
+	 versusai.setOpaque(false);
 	 panel.add(versusai);
 	 
 	 //****************NETWORK GAME********************
@@ -101,7 +105,7 @@ public class Gui extends Thread {
 	 network.setIcon(iconnetwork);
 	 network.setContentAreaFilled(false);
 	 network.setBorderPainted(false);
-	 network.setOpaque(true);
+	 network.setOpaque(false);
 	 panel.add(network);
 
 	//****************SETTINGS********************
@@ -110,7 +114,7 @@ public class Gui extends Thread {
 	 settings.setIcon(iconsettings);
 	 settings.setContentAreaFilled(false);
 	 settings.setBorderPainted(false);
-	 settings.setOpaque(true);
+	 settings.setOpaque(false);
 	 panel.add(settings);
 	
 	//****************HELP********************
@@ -119,7 +123,7 @@ public class Gui extends Thread {
 	 help.setIcon(iconhelp);
 	 help.setContentAreaFilled(false);
 	 help.setBorderPainted(false);
-	 help.setOpaque(true);
+	 help.setOpaque(false);
 	 panel.add(help);
 		
 	//****************QUIT********************
@@ -128,7 +132,7 @@ public class Gui extends Thread {
 	 quit.setIcon(iconquit);
 	 quit.setContentAreaFilled(false);
 	 quit.setBorderPainted(false);
-	 quit.setOpaque(true);
+	 quit.setOpaque(false);
 	 panel.add(quit);
 	
 	 quit.addActionListener(new ActionListener() {
@@ -155,7 +159,7 @@ public class Gui extends Thread {
             {
             	panel.setVisible(false);
             	JPanel panelnw = new JPanel();
-        		panelnw.setVisible(true);
+        		panelnw.setOpaque(false);
         		boardpanel.add(panelnw);
         		 
         		 
@@ -164,7 +168,7 @@ public class Gui extends Thread {
         		 join.setIcon(iconjoin);
         		 join.setContentAreaFilled(false);
         		 join.setBorderPainted(false);
-        		 join.setOpaque(true);
+        		 join.setOpaque(false);
         		 panelnw.add(join);
         		
         		 
@@ -173,9 +177,11 @@ public class Gui extends Thread {
 	     	            {
 	     	            	panelnw.setVisible(false);
 	     	            	JPanel paneljoin = new JPanel();
-		   	        		paneljoin.setVisible(true);
+		   	        		paneljoin.setOpaque(false);
 		   	        		 
 		   	        		JLabel labeljoin = new JLabel("Enter IP adress:");
+		   	        		Font schriftart = new Font("SansSerif", Font.BOLD, 18);
+		   	        		labeljoin.setFont(schriftart);
 			        		paneljoin.add(labeljoin);
 			        		 
 			        		JTextField textjoin = new JTextField(20);
@@ -211,7 +217,7 @@ public class Gui extends Thread {
 	        		 host.setIcon(iconhost);
 	        		 host.setContentAreaFilled(false);
 	        		 host.setBorderPainted(false);
-	        		 host.setOpaque(true);
+	        		 host.setOpaque(false);
         		 panelnw.add(host);
         		 
         		 host.addActionListener(new ActionListener() {
@@ -226,6 +232,8 @@ public class Gui extends Thread {
 							host1.start();
 	   	        		 
 	     	            	JLabel labelhost = new JLabel("Your IP adress: " + ip);
+	     	            	Font schriftart = new Font("SansSerif", Font.BOLD, 18);
+	     	        		labelhost.setFont(schriftart);
 	     	            	panelhost.add(labelhost);
 							boardpanel.add(panelhost);
 							panelhost.setVisible(true);
@@ -251,7 +259,7 @@ public class Gui extends Thread {
 				menu.setIcon(iconmenu);
 				menu.setContentAreaFilled(false);
 				menu.setBorderPainted(false);
-				menu.setOpaque(true);
+				menu.setOpaque(false);
 				panelnw.add(menu);
 
 				menu.addActionListener(new ActionListener() {
@@ -272,17 +280,36 @@ public class Gui extends Thread {
             {
             	panel.setVisible(false);
             	JPanel panelhelp = new JPanel();
-        		panelhelp.setVisible(true);
+        		panelhelp.setOpaque(false);
         		boardpanel.add(panelhelp);
         		
-      
+        		//*****************JLABEL**********************
         		JLabel howtoplay= new JLabel("How to play Battle PIRATE Ships:");
         		JLabel howtoplay1= new JLabel("Each player places ships on the left grid.");
         		JLabel howtoplay2= new JLabel("Ships are not allowed to be placed");
         		JLabel howtoplay3= new JLabel("next to each other. After that you take turns");
         		JLabel howtoplay4= new JLabel("firing shots by clicking on grid coordinates.");
         		JLabel howtoplay5= new JLabel("Your goal is to shoot down enemy ships");
-        		JLabel howtoplay6= new JLabel("before he shoots down yours");
+        		JLabel howtoplay6= new JLabel("before he shoots down yours.");
+        		//Schriftart ändern*******************
+        		Font schriftart = new Font("SansSerif", Font.BOLD, 18);
+        		Font schriftart1 = new Font("SansSerif", Font.PLAIN, 15);
+        		howtoplay.setFont(schriftart);
+        		howtoplay1.setFont(schriftart1);
+        		howtoplay2.setFont(schriftart1);
+        		howtoplay3.setFont(schriftart1);
+        		howtoplay4.setFont(schriftart1);
+        		howtoplay5.setFont(schriftart1);
+        		howtoplay6.setFont(schriftart1);
+        		//Farbe ändern************************
+        		howtoplay.setForeground(Color.BLACK);
+        		howtoplay1.setForeground(Color.BLACK);
+        		howtoplay2.setForeground(Color.BLACK);
+        		howtoplay3.setForeground(Color.BLACK);
+        		howtoplay4.setForeground(Color.BLACK);
+        		howtoplay5.setForeground(Color.BLACK);
+        		howtoplay6.setForeground(Color.BLACK);
+        		//JLabel hinzufügen*********************
         		panelhelp.add(howtoplay);
         		panelhelp.add(howtoplay1); 
         		panelhelp.add(howtoplay2);
@@ -291,13 +318,13 @@ public class Gui extends Thread {
         		panelhelp.add(howtoplay5);
         		panelhelp.add(howtoplay6);
         		
-        		
+        		//Zurück zum Menü BUTTON**************
         		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
 	        	JButton menu = new JButton(iconmenu);
        		 		menu.setIcon(iconmenu);
        		 		menu.setContentAreaFilled(false);
        		 		menu.setBorderPainted(false);
-       		 		menu.setOpaque(true);
+       		 		menu.setOpaque(false);
 	        	panelhelp.add(menu);
 	        		 
         		menu.addActionListener(new ActionListener() {
@@ -318,7 +345,7 @@ public class Gui extends Thread {
             {
             	panel.setVisible(false);
             	JPanel panelsettings = new JPanel();
-        		panelsettings.setVisible(true);
+            	panelsettings.setOpaque(false);
         		boardpanel.add(panelsettings);
         		
         		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
@@ -326,24 +353,23 @@ public class Gui extends Thread {
        		 		menu.setIcon(iconmenu);
        		 		menu.setContentAreaFilled(false);
        		 		menu.setBorderPainted(false);
-       		 		menu.setOpaque(true);
-        		
+       		 		menu.setOpaque(false);
         		
         		ImageIcon iconlightmode = new ImageIcon(Gui.class.getResource("lightmode.png"));
 	        	JButton lightmode = new JButton(iconlightmode);
 	        		lightmode.setIcon(iconlightmode);
    		 			lightmode.setContentAreaFilled(false);
    		 			lightmode.setBorderPainted(false);
-   		 			lightmode.setOpaque(true);
+   		 			lightmode.setOpaque(false);
    		 		
    		 		ImageIcon icondarkmode = new ImageIcon(Gui.class.getResource("darkmode.png"));
    		 		JButton darkmode = new JButton(icondarkmode);
    		 			darkmode.setIcon(icondarkmode);
    		 			darkmode.setContentAreaFilled(false);
    		 			darkmode.setBorderPainted(false);
-   		 			darkmode.setOpaque(true);
+   		 			darkmode.setOpaque(false);
    		 		
-   		 		
+   		 		//*****************LIGHTMODE***********************
    		 	lightmode.addActionListener(new ActionListener() {
  	            public void actionPerformed(ActionEvent e)
  	            {
@@ -353,41 +379,23 @@ public class Gui extends Thread {
  	            	
  	            	boardbottom.setBackground(null);
  	            	boardpanel.setBackground(null);
- 	            	panelsettings.setBackground(null);
- 	            	panelname.setBackground(null);
- 	            	versusai.setBackground(null);
- 	            	network.setBackground(null);
- 	            	settings.setBackground(null);
- 	            	help.setBackground(null);
- 	            	quit.setBackground(null);
- 	            	darkmode.setBackground(null);
- 	            	lightmode.setBackground(null);
- 	            	menu.setBackground(null);
- 	            	
  	            }
     		 });
    		 	
-   		 		
+
+		 	//*****************DARKMODE***********************
    		 darkmode.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent e)
 	            {
+	  
+	           	 	boardtop.setBackground(Color.BLACK);
+
+	           	 	Color customColor = new Color(139,137,112);
+	            	boardbottom.setBackground(customColor);
+	            	boardpanel.setBackground(customColor);
 	            	
-	            	Color customColor1 = new Color(1,1,1);
-	           	 	boardtop.setBackground(customColor1);
-	            	
-	            	boardbottom.setBackground(Color.DARK_GRAY);
-	            	boardpanel.setBackground(Color.DARK_GRAY);
-	            	panelsettings.setBackground(Color.DARK_GRAY);
-//					panelhelp.setBackground(Color.DARK_GRAY);
-	            	panelname.setBackground(Color.DARK_GRAY);
-	            	versusai.setBackground(Color.DARK_GRAY);
-	            	network.setBackground(Color.DARK_GRAY);
-	            	settings.setBackground(Color.DARK_GRAY);
-	            	help.setBackground(Color.DARK_GRAY);
-	            	quit.setBackground(Color.DARK_GRAY);
-	            	darkmode.setBackground(Color.DARK_GRAY);
-	            	lightmode.setBackground(Color.DARK_GRAY);
-	            	menu.setBackground(Color.DARK_GRAY);
+	           	 
+	            
 	            }
 		 });
         		
