@@ -146,7 +146,7 @@ public class Gui extends Thread {
             public void actionPerformed(ActionEvent e)
             {
             	panel.setVisible(false);
-            	new Screen();
+            	new Window();
             	frame.setVisible(false);
             	
 	 
@@ -245,7 +245,7 @@ public class Gui extends Thread {
 
 									if(host1.isConnected()){
 										panel.setVisible(false);
-										new Screen();
+										new Window();
 										frame.setVisible(false);
 									}
 								}
