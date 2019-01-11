@@ -1,48 +1,57 @@
 package Logik;
-import AI.*;
-import gui.Gui;
+import Ai.*;
+import gui.*;
 
 public class SpielLogikAI {
 
-    boolean meinZug;
+    boolean meinZug = true;
 
     boolean spielLaeuft = true;
 
-    Object[][] aigrid;
-    //Mein Spielfeld übergeben in die Logik datei
-    Object[][] mygrid = gui.Gui.getGrid();
+    Object[][] aigrid = gui.Window.getaigrid();
 
-    int boardsize = gui.Gui.getBoardsize();
+    Object[][] mygrid = gui.Window.getmyGrid();
 
-    //Spiel starten, AI grid in die Logik datei übergeben
-    void spielStart(){
-        aigrid = AI.aigrid(boardsize);
+    int boardsize = gui.Window.getBoardsize();
+
+    /**
+     * "Spielloop" wird gestartet, das Spiel laeuft, solang die Variable
+     * spielLaeuft auf true gesetzt ist.
+     */
+    public void spielStart(){
+        aishot shot = new aishot();
 
         while(spielLaeuft){
+            System.out.println(meinZug);
             if(meinZug){
-                int[] schussKoordinaten = gui.Gui.getSchuss();
+                int[] schussKoordinaten = gui.Spielfeld.getPos();
                 int x = schussKoordinaten[0];
                 int y = schussKoordinaten[1];
                 schussVonMenschAufAI(x, y);
+                System.out.println("Schieße auf die AI" + x + " " + y);
             }else{
                 do{
-                    aishot.aischiesst();
+                    shot.aischiesst(boardsize, mygrid);
                 }while(!meinZug);
             }
 
-            if(spielerSpielfeldDurchlaufen()){
-                spielLaeuft = false;
-            }
-
-            if(aiSpielfeldDurchlaufen()){
-                spielLaeuft = false;
-            }
+//            if(spielerSpielfeldDurchlaufen()){
+//                spielLaeuft = false;
+//            }
+//
+//            if(aiSpielfeldDurchlaufen()){
+//                spielLaeuft = false;
+//            }
         }
 
-        gui.Gui.sieg();
+        //gui.Gui.sieg();
     }
 
-    boolean testeObMeinSpielzug(){
+    /**
+     * Hier wird getestet wer am Zug ist, true für Spieler, false für AI.
+     * @return boolean-Wert wer am Zug ist
+     */
+    public boolean testeObMeinSpielzug(){
         if(meinZug){
             return true;
         }else{
@@ -50,17 +59,23 @@ public class SpielLogikAI {
         }
     }
 
-    //Schuss auf AI von Mensch
+    /**
+     * Hier schickt der Spieler einen Schuss auf die AI ab.
+     * @param x X-Koordinate vom Schuss
+     * @param y Y-Koordinate vom Schuss
+     * @return boolean-Wert ob der Schuss erfolgreich abgeschickt wurde
+     */
     boolean schussVonMenschAufAI(int x, int y){
         if(testeObMeinSpielzug()){
             //Teste ob der Schuss irgendein Schiff getroffen hat
             if (aigrid[x][y].equals(2) || aigrid[x][y].equals(3) || aigrid[x][y].equals(4) ||
                     aigrid[x][y].equals(5) || aigrid[x][y].equals(6) || aigrid[x][y].equals(7)) {
-                mygrid[x][y] = 21;
+                aigrid[x][y] = 21;
+                //gui.Spielfeld.updatefeld(aigrid);
                 meinZug = true;
                 return true;
             }else{
-                mygrid[x][y] = 20;
+                aigrid[x][y] = 20;
                 meinZug = false;
                 return false;
             }
@@ -70,8 +85,10 @@ public class SpielLogikAI {
         }
     }
 
-
-    //return true wenn das Spiel VORBEI!!!! sein soll, bei false geht es weiter
+    /**
+     * Hier wird das Spielfeld vom Spieler durchlaufen, um zu schauen ob das Spiel zuende ist.
+     * @return boolean-Wert true wenn das Spiel vorbei ist
+     */
     boolean spielerSpielfeldDurchlaufen(){
         for (int i = 0; i < mygrid.length; i++) {
             for (int j = 0; j < mygrid[i].length; j++) {
@@ -84,7 +101,10 @@ public class SpielLogikAI {
         return true;
     }
 
-    //return true wenn das Spiel VORBEI!!!! sein soll, bei false geht es weiter
+    /**
+     * Hier wird das Spielfeld von der AI durchlaufen, um zu schauen ob das Spiel zuende ist.
+     * @return boolean-Wert true wenn das Spiel vorbei ist
+     */
     boolean aiSpielfeldDurchlaufen(){
         for (int i = 0; i < aigrid.length; i++) {
             for (int j = 0; j < aigrid[i].length; j++) {
