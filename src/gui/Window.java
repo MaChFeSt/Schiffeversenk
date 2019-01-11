@@ -3,6 +3,7 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import Ai.*;
 
 //********** 2er SCHIFF : 		Waka
 //********** 3er SCHIFF :		Tentacle
@@ -25,7 +26,7 @@ public class Window extends JFrame{
 	JLabel placeShipsText;
 	JButton place, start;
 	Spielfeld feld;
-	Object [][] myGrid;
+	Object[][] myGrid;
 	Object[][] aigrid;
 	
 	public Window () {
@@ -216,13 +217,15 @@ public class Window extends JFrame{
 		return myGrid;
 	}
 	
-	public Object getmyGrid() {
+	public Object[][] getmyGrid() {
 		return myGrid;
 	}
 	
-	public Object getaigrid() {
+	public Object[][] getaigrid() {
 		return aigrid;
 	}
+
+	public int getBoardsize(){ return size; }
 	
 	
 	// ********** CONFIRMBUTTON **********
@@ -294,7 +297,7 @@ class Spielfeld extends JPanel{
 	
 
 
-	//*** BILD RESIZABLE ICON FÜR GRID ***
+	//*** BILD RESIZABLE ICON Fï¿½R GRID ***
 
 	Image waterimage;
 
@@ -314,7 +317,7 @@ class Spielfeld extends JPanel{
 		
 
 
-		//*** BILD RESIZABLE ICON FÜR GRID ***
+		//*** BILD RESIZABLE ICON Fï¿½R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 		ImageIcon waterred = new ImageIcon(Spielfeld.class.getResource("wasserrot.png"));
@@ -335,7 +338,7 @@ class Spielfeld extends JPanel{
 				label.setOpaque(true);
 	            
 				
-//		// ********** MOUSE LISTENER FÜR GRID ************
+//		// ********** MOUSE LISTENER Fï¿½R GRID ************
 //	            label.addMouseListener(new MouseAdapter() {
 //	                public void mouseClicked(MouseEvent e){
 //	                    //label.setBackground(Color.red);
@@ -407,7 +410,7 @@ class Spielfeld extends JPanel{
 		
 
 
-		//*** BILD RESIZABLE ICON FÜR GRID ***
+		//*** BILD RESIZABLE ICON Fï¿½R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 
@@ -469,13 +472,49 @@ class Spielfeld extends JPanel{
 	}
 	
 	
-public Spielfeld (int size,Object[][] my) {
+public Spielfeld (int size,Object[][] my){
 		
 		this.size=size;
 		JPanel panel = new JPanel(new GridLayout(size,size));
 		panel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		panel.setPreferredSize(new Dimension(520,520));
 		panel.setOpaque(false);
+
+		// ********** MOUSE LISTENER Fï¿½R GRID ************
+		panel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e){
+				//label.setBackground(Color.black);
+				int col;
+				int row;
+				int cellwidth = 520/size;
+				col = e.getX() / cellwidth;
+				row = e.getY() / cellwidth;
+
+				System.out.println("CLICKED ON: " + col + " " + row);
+
+				//label.setBackground(Color.red);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		
 		//*** SCHIFFSBILDER
 		ImageIcon crab = new ImageIcon(Spielfeld.class.getResource("crab.png"));
@@ -493,7 +532,7 @@ public Spielfeld (int size,Object[][] my) {
 		
 
 
-		//*** BILD RESIZABLE ICON FÜR GRID ***
+		//*** BILD RESIZABLE ICON Fï¿½R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 
@@ -502,7 +541,6 @@ public Spielfeld (int size,Object[][] my) {
 			
 			for (int i = 0; i < myGrid.length; i++) {
 				for (int j = 0; j < myGrid[i].length; j++) {
-					
 					if(myGrid[i][j].hashCode() == 20 || myGrid[i][j].hashCode() == 21) {
 						JLabel label = new JLabel();
 					    label.setIcon(new ImageIcon(roseim));
@@ -515,10 +553,12 @@ public Spielfeld (int size,Object[][] my) {
 					    label.setIcon(new ImageIcon(waterimage));
 					    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
 					    panel.add(label);
+
 					}
 
 				}
 			}
+
 			add(panel);
 		
 	}
