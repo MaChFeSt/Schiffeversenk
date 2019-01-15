@@ -136,6 +136,10 @@ public class Spielfeld extends JPanel{
 		//*** BILD RESIZABLE ICON F�R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
+		 ImageIcon leeric  = new ImageIcon(Spielfeld.class.getResource("empty.png"));
+		 leeri = leeric.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
+		 ImageIcon hitic  = new ImageIcon(Spielfeld.class.getResource("hit.png"));
+		 hiti = hitic.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 
 		
 		 Object [][] myGrid = my;
@@ -187,7 +191,18 @@ public class Spielfeld extends JPanel{
 					    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
 					    panel.add(label);
 					}
-
+					if(myGrid[i][j].hashCode() == 21) {
+						JLabel label = new JLabel();
+					    label.setIcon(new ImageIcon(hiti));
+					    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
+					    panel.add(label);
+					}
+					if(myGrid[i][j].hashCode() == 20) {
+						JLabel label = new JLabel();
+					    label.setIcon(new ImageIcon(leeri));
+					    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
+					    panel.add(label);
+					}
 				}
 			}
 			add(panel);
@@ -251,7 +266,9 @@ public Spielfeld (int size,Object[][] my){
 					    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
 					    panel.add(label);
 					}
-					else {
+					if (myGrid[i][j].hashCode() == 2 || myGrid[i][j].hashCode() == 3 || myGrid[i][j].hashCode() == 4 || 
+							myGrid[i][j].hashCode() == 5 || myGrid[i][j].hashCode() == 6 || myGrid[i][j].hashCode() == 7 || 
+							myGrid[i][j].hashCode() == 9 || myGrid[i][j].hashCode() == 0) {
 						JLabel label = new JLabel();
 					    label.setIcon(new ImageIcon(waterimage));
 					    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
@@ -277,13 +294,30 @@ public Spielfeld (int size,Object[][] my){
 						pos [0] = col;
 						pos [1] = row;
 						
+						
+						SpielLogikAI.schussVonMenschAufAI(row, col);
+					
 						System.out.println("CLICKED ON: " + col + " " + row);
 					}
-					//label.setBackground(Color.red);
+					
 				}
 				@Override
 				public void mouseEntered(MouseEvent e) {
-
+//					
+//					if(Window.myTurn=true) {
+//						int col;
+//	                	int row;
+//			        	int cellwidth = 520/size;
+//			        	col = e.getX() / cellwidth;
+//			        	row = e.getY()  / cellwidth;
+//			        	
+//			        	if (grid[col][row].hashCode() != 20 || grid[col][row].hashCode() != 21 ) {	  
+//			        		//label.setBackground(Color.green);
+//			        	label.setIcon(null);
+//			        	label.setIcon(new ImageIcon(aimi));
+//
+//			        	}
+//					}
 				}
 
 				@Override
