@@ -2,6 +2,8 @@ package Logik;
 import Ai.*;
 import gui.*;
 
+import javax.swing.*;
+
 public class SpielLogikAI {
 
     boolean meinZug = true;
@@ -13,7 +15,7 @@ public class SpielLogikAI {
     Object[][] mygrid = gui.Window.getmyGrid();
 
     int boardsize = gui.Window.getBoardsize();
-    
+
 
     int altePos [] = new int[2];
 
@@ -24,27 +26,31 @@ public class SpielLogikAI {
     public void spielStart(){
         aishot shot = new aishot();
         altePos[0] = -1;
-    	altePos[1] = -1;
+        altePos[1] = -1;
 
-        while(spielLaeuft){
-            System.out.println(meinZug);
-            if(meinZug){
-                int[] schussKoordinaten = gui.Spielfeld.getPos();
-                int x = schussKoordinaten[0];
-                int y = schussKoordinaten[1];
-                if (x != altePos[0] &&  y !=altePos[1]) {
-                	  schussVonMenschAufAI(x, y);
-                	  System.out.println("Schieße auf die AI" + x + " " + y);
-                	  altePos[0] = x;
-                	  altePos[1] = y;
-                }
-              
-                
-            }else{
-                do{
-                    shot.aischiesst(boardsize, mygrid);
-                }while(!meinZug);
-            }
+
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                while(spielLaeuft){
+                    System.out.println(meinZug);
+                    if(meinZug){
+                        int[] schussKoordinaten = gui.Spielfeld.getPos();
+                        int x = schussKoordinaten[0];
+                        int y = schussKoordinaten[1];
+                        if (x != altePos[0] &&  y !=altePos[1]) {
+                            schussVonMenschAufAI(x, y);
+                            System.out.println("Schieï¿½e auf die AI" + x + " " + y);
+                            altePos[0] = x;
+                            altePos[1] = y;
+                        }
+
+
+                    }else{
+                        do{
+                            shot.aischiesst(boardsize, mygrid);
+                        }while(!meinZug);
+                    }
 
 //            if(spielerSpielfeldDurchlaufen()){
 //                spielLaeuft = false;
@@ -53,13 +59,15 @@ public class SpielLogikAI {
 //            if(aiSpielfeldDurchlaufen()){
 //                spielLaeuft = false;
 //            }
-        }
+                }
+            }
+        });
 
         //gui.Gui.sieg();
     }
 
     /**
-     * Hier wird getestet wer am Zug ist, true für Spieler, false für AI.
+     * Hier wird getestet wer am Zug ist, true fï¿½r Spieler, false fï¿½r AI.
      * @return boolean-Wert wer am Zug ist
      */
     public boolean testeObMeinSpielzug(){
