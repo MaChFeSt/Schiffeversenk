@@ -7,6 +7,7 @@ import Ai.*;
 import Logik.*;
 import gui.*;
 
+
 //********** 2er SCHIFF : 		Waka
 //********** 3er SCHIFF :		Tentacle
 //********** 4er SCHIFF :		Crab
@@ -18,22 +19,25 @@ import gui.*;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame{
+	
 	static int pos [] = new int[2];
 	public static int startint = 0;
-	public int l = 3;
+	public static int l = 3;
 	Font font2 = new Font("SansSerif", Font.BOLD, 30);
 	static public int size = 0;
 	ConfirmButton conf;
 	JTextField gridsize;
 	JLabel setSizeText;
-	JLayeredPane lp;
-	JLabel placeShipsText, myT, aiT;
+	public static JLayeredPane lp;
+	JLabel placeShipsText;
+	static JLabel myT;
+	static JLabel aiT;
 	JButton place, start;
 	Spielfeld feld;
 	public static Spielfeld myFeld, aiFeld;
 	public static Object[][] myGrid;
 	public static Object[][] aigrid;
-	public static boolean myTurn = false, aiTurn = false;
+	public static boolean myTurn = false, aiTurn = false, clicked=false;
 
 	
 	
@@ -244,22 +248,22 @@ public class Window extends JFrame{
 							
 							
 							// ********* SPIELLOGIK STARTEN ***********
-							SwingUtilities.invokeLater(new Runnable(){
-								public void run() {
-										SpielLogikAI logik = new SpielLogikAI();
-										logik.spielStart();
-								}
-							});
+//							SwingUtilities.invokeLater(new Runnable(){
+//								public void run() {
+//										SpielLogikAI logik = new SpielLogikAI();
+//										logik.spielStart();
+//								}
+//							});
+//							
 							
-							
-	//						// test
-	//						System.out.println("********** AI FELD **********************");
-	//						for (int i = 0; i < aigrid.length; i++) {
-	//				            for (int j = 0; j < aigrid[i].length; j++)
-	//				                System.out.print(aigrid[i][j].toString() + ", ");
-	//				            System.out.println();
-	//				            System.out.println();
-	//						}
+							// test
+							System.out.println("********** AI FELD **********************");
+							for (int i = 0; i < aigrid.length; i++) {
+					            for (int j = 0; j < aigrid[i].length; j++)
+					                System.out.print(aigrid[i][j].toString() + ", ");
+					            System.out.println();
+					            System.out.println();
+							}
 							
 						}
 						
@@ -289,13 +293,30 @@ public class Window extends JFrame{
 		return size; 
 	}
 	
-	public void myTurn(){
+	public static void myTurn(){
 		myTurn = true;
+		aiT.setVisible(false);
 		myT.setVisible(true);
-	
 		lp.validate();
+		}
+	
+	public static void aiTurn(){
+		myTurn = false;
+		myT.setVisible(false);
+		aiT.setVisible(true);
 		
-	}
+		if(aishot.aischiesst(size, myGrid)) {
+			updateGrid(myGrid, aigrid);	
+			
+			aiTurn();
+		}
+		else {
+			updateGrid(myGrid, aigrid);
+			
+			myTurn();
+		}
+		lp.validate();
+		}
 	
 	// ********** CONFIRMBUTTON **********
 	class ConfirmButton extends JPanel {
@@ -335,11 +356,42 @@ public class Window extends JFrame{
 			}
 	}		
 	
-	public void updateGrid(Object [][] my, Object [][] ai) {
-		feld = new Spielfeld(size);
-		feld.setBounds(50, 100, 520, 520);
-		lp.add(feld, (2),2);
-		conf.setVisible(true); 
+	public static void setClickedFalse() {
+		clicked = false;
+	}
+	
+	public static void setClickedTrue() {
+		clicked = true;
+	}
+	
+	public static boolean getClicked() {
+		return clicked;
+	}
+	
+	public static void updateGrid(Object [][] my, Object [][] ai) {
+		
+		lp.remove(myFeld);
+		lp.remove(aiFeld);
+		lp.validate();
+		myGrid = my;
+		aigrid= ai;
+		// test
+		System.out.println("********** AI FELD **********************");
+		for (int i = 0; i < aigrid.length; i++) {
+            for (int j = 0; j < aigrid[i].length; j++)
+                System.out.print(aigrid[i][j].toString() + ", ");
+            System.out.println();
+            System.out.println();
+		}
+		myFeld = new Spielfeld (myGrid, size);
+		myFeld.setBounds(50, 100, 520, 520);
+		lp.add(myFeld, (l+1),l+1);
+		aiFeld = new Spielfeld (size, aigrid);
+
+		aiFeld.setBounds(710,100, 520, 520);
+		lp.add(aiFeld, (l+1),l+1);
+		
+		lp.repaint();
 		lp.validate();
 	}
 }
