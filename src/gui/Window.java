@@ -18,18 +18,24 @@ import gui.*;
 
 @SuppressWarnings("serial")
 public class Window extends JFrame{
-	
+	static int pos [] = new int[2];
+	public static int startint = 0;
+	public int l = 3;
 	Font font2 = new Font("SansSerif", Font.BOLD, 30);
-	public int size = 0;
+	static public int size = 0;
 	ConfirmButton conf;
 	JTextField gridsize;
 	JLabel setSizeText;
 	JLayeredPane lp;
-	JLabel placeShipsText;
+	JLabel placeShipsText, myT, aiT;
 	JButton place, start;
 	Spielfeld feld;
-	Object[][] myGrid;
-	Object[][] aigrid;
+	public static Spielfeld myFeld, aiFeld;
+	public static Object[][] myGrid;
+	public static Object[][] aigrid;
+	public static boolean myTurn = false, aiTurn = false;
+
+	
 	
 	public Window () {
 		
@@ -46,21 +52,38 @@ public class Window extends JFrame{
 		setSizeText.setIcon(sizeText);
 		setSizeText.setBounds(355, 0, 500, 100);
 		
+		
+		// TURN HINTERGRUND
+		
+		ImageIcon myBG = new ImageIcon(Window.class.getResource("myturn.png"));
+		myT = new JLabel();
+	    myT.setIcon(myBG);
+	    myT.setBounds(666, 0, 600, 680);
+	    
+		ImageIcon aiBG = new ImageIcon(Window.class.getResource("enemyturn.png"));
+		aiT = new JLabel();
+	    aiT.setIcon(aiBG);
+	    aiT.setBounds(11, 0, 600, 680);
+	    lp.add(myT,(0),0);
+	    lp.add(aiT,(0),0);
+	    myT.setVisible(false);
+	    aiT.setVisible(false);
+
 		// TEXTEINGABE
 		gridsize = new JTextField(3);
 		gridsize.setBounds(855, 22, 70, 50);
 		gridsize.setFont(font2);
-		gridsize.setHorizontalAlignment(JTextField.CENTER);
+		gridsize.setHorizontalAlignment(JTextField.CENTER); 
 	    
 		
 		// CONFIRMBUTTON
 		conf = new ConfirmButton();
 		conf.setBounds(825, 550, 200, 70);
-		lp.add(conf,(1));
+		lp.add(conf,(1),1);
 		conf.setVisible(false);
 		
-	    lp.add(setSizeText, (1));
-		lp.add(gridsize, (1));
+	    lp.add(setSizeText, (1),1);
+		lp.add(gridsize, (1),1);
 		
 		
 		gridsize.addActionListener(new java.awt.event.ActionListener() {
@@ -83,7 +106,7 @@ public class Window extends JFrame{
 					
 					feld = new Spielfeld(size);
 					feld.setBounds(50, 100, 520, 520);
-					lp.add(feld, (2));
+					lp.add(feld, (20),20);
 					conf.setVisible(true); 
 					lp.validate();
 				}
@@ -96,7 +119,7 @@ public class Window extends JFrame{
 		
 	}
 	
-	public Object goPlaceShipsScreen() {
+	public void goPlaceShipsScreen() {
 		ImageIcon placeShip = new ImageIcon(Window.class.getResource("PlaceShips.png"));
 		placeShipsText = new JLabel();
 		placeShipsText.setIcon(placeShip);
@@ -112,15 +135,19 @@ public class Window extends JFrame{
 		place.setBorderPainted(false);
 		place.setOpaque(false);
 		place.setBounds(825, 300 , 200, 70);
-		lp.add(place, (1));
-		lp.add(placeShipsText,(1));
-		lp.validate();
+		lp.add(place, (1),2);
+		lp.add(placeShipsText,(1),2);
 		
 		//********* MOUSELISTENER *********
 		place.addMouseListener(new MouseAdapter() {
 		
 			public void mouseClicked(MouseEvent e){
-		
+				
+				lp.remove(feld);
+				lp.validate();
+
+				myGrid = new Object[size][size];
+				
 				AI me = new AI();
 		        int end=0;
 		        myGrid = me.setaiships(size);
@@ -143,71 +170,102 @@ public class Window extends JFrame{
 		                System.out.print(myGrid[i][j].toString() + ", ");
 		            System.out.println();
 		            System.out.println();
-
 		        }
 				
-				feld.setVisible(false);
+				
 				Spielfeld newFeld = new Spielfeld (myGrid, size);
-				lp.add(newFeld, (44));
+				lp.add(newFeld, (l++),l++);
+				System.out.println(l);
 				newFeld.setBounds(50, 100, 520, 520);
-				lp.validate();
-				
-				
-				
-				start = new JButton();
-				ImageIcon starti = new ImageIcon(Window.class.getResource("startbutton.png"));
-				Image startim= starti.getImage().getScaledInstance(300, 100, Image.SCALE_SMOOTH);
-				
-				start.setIcon(new ImageIcon(startim));
-				start.setContentAreaFilled(false);
-				start.setBorderPainted(false);
-				start.setOpaque(false);
-				start.setBounds(775, 500 , 300, 100);
-				
-				//********* MOUSELISTENER *********
-				start.addMouseListener(new MouseAdapter() {
-				
-					public void mouseClicked(MouseEvent e){
-				
-						start.setVisible(false);
-						place.setVisible(false);
-						placeShipsText.setVisible(false);
-						
-						AI a = new AI();
-				        int end=0;
-				        aigrid = a.setaiships(size);
-				        while (end==0){
 
-				            if(!aigrid[0][0].equals(-1)){
-				                end=1;
-				            }
-				            else{
-				                a = new AI();
-				                aigrid = a.setaiships(size);
-				            }
-				        } 
-				        
-				        Spielfeld aiFeld = new Spielfeld (size, aigrid);
-						lp.add(aiFeld, (44));
-						aiFeld.setBounds(710,100, 520, 520);
-						lp.validate();
+				
+				if(startint==0) {
+					start = new JButton();
+					ImageIcon starti = new ImageIcon(Window.class.getResource("startbutton.png"));
+					Image startim= starti.getImage().getScaledInstance(300, 100, Image.SCALE_SMOOTH);
+					startint = 2;
+					start.setIcon(new ImageIcon(startim));
+					start.setContentAreaFilled(false);
+					start.setBorderPainted(false);
+					start.setOpaque(false);
+					start.setBounds(775, 500 , 300, 100);
+					lp.add(start, (1),2);
+				}
+				
+				
+					//********* MOUSELISTENER *********
+					start.addMouseListener(new MouseAdapter() {
+					
+						public void mouseClicked(MouseEvent e){
+							
+							lp.remove(start);
+							lp.remove(place);
+							lp.remove(placeShipsText);
+							lp.remove(newFeld);
+							lp.validate();
+							myFeld = new Spielfeld (myGrid, size);
+							myFeld.setBounds(50, 100, 520, 520);
+							lp.add(myFeld, (20),l++);
+							
+//							// test
+//					        System.out.println("********** MY FELD **********************");
+//							for (int i = 0; i < myGrid.length; i++) {
+//					            for (int j = 0; j < myGrid[i].length; j++)
+//					                System.out.print(myGrid[i][j].toString() + ", ");
+//					            System.out.println();
+//					            System.out.println();
+//					        }
+	
+							AI a = new AI();
+					        int end=0;
+					        aigrid = a.setaiships(size);
+					        while (end==0){
+	
+					            if(!aigrid[0][0].equals(-1)){
+					                end=1;
+					            }
+					            else{
+					                a = new AI();
+					                aigrid = a.setaiships(size);
+					            }
+					        } 
+	
+					        
+					        aiFeld = new Spielfeld (size, aigrid);
+							lp.add(aiFeld, (21),l);
+							aiFeld.setBounds(710,100, 520, 520);
 						
-						
-						
-						// test
-						System.out.println("********** AI FELD **********************");
-						for (int i = 0; i < aigrid.length; i++) {
-				            for (int j = 0; j < aigrid[i].length; j++)
-				                System.out.print(aigrid[i][j].toString() + ", ");
-				            System.out.println();
-				            System.out.println();
+							start.setVisible(false);
+							
+							myTurn();
+							
+							lp.repaint();
+							lp.validate();
+							
+							
+							// ********* SPIELLOGIK STARTEN ***********
+							SwingUtilities.invokeLater(new Runnable(){
+								public void run() {
+										SpielLogikAI logik = new SpielLogikAI();
+										logik.spielStart();
+								}
+							});
+							
+							
+	//						// test
+	//						System.out.println("********** AI FELD **********************");
+	//						for (int i = 0; i < aigrid.length; i++) {
+	//				            for (int j = 0; j < aigrid[i].length; j++)
+	//				                System.out.print(aigrid[i][j].toString() + ", ");
+	//				            System.out.println();
+	//				            System.out.println();
+	//						}
+							
 						}
 						
-					}
-					
-				});
+					});
 				
-				lp.add(start, (1));
+				lp.repaint();
 				lp.validate();
 				
 			}
@@ -215,20 +273,29 @@ public class Window extends JFrame{
 		});
 		
 		
-
+		lp.repaint();
+		lp.validate();
+	}
+	
+	static public Object[][] getmyGrid() {
 		return myGrid;
 	}
 	
-	public Object[][] getmyGrid() {
-		return myGrid;
-	}
-	
-	public Object[][] getaigrid() {
+	static public Object[][] getaigrid() {
 		return aigrid;
 	}
 
-	public int getBoardsize(){ return size; }
+	static public int getBoardsize() {
+		return size; 
+	}
 	
+	public void myTurn(){
+		myTurn = true;
+		myT.setVisible(true);
+	
+		lp.validate();
+		
+	}
 	
 	// ********** CONFIRMBUTTON **********
 	class ConfirmButton extends JPanel {
@@ -268,7 +335,13 @@ public class Window extends JFrame{
 			}
 	}		
 	
-	
+	public void updateGrid(Object [][] my, Object [][] ai) {
+		feld = new Spielfeld(size);
+		feld.setBounds(50, 100, 520, 520);
+		lp.add(feld, (2),2);
+		conf.setVisible(true); 
+		lp.validate();
+	}
 }
 
 
