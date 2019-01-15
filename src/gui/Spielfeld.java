@@ -16,30 +16,19 @@ public class Spielfeld extends JPanel{
 	JLabel label;
 	int size;
 	Object[][] grid;
-	int pos [] = new int[2];
-
+	static int pos [] = new int[2];
 	
 	//*** SCHIFFSBILDER
-	
 	Image crabim;
-	Image ghostim; 
-
+	Image ghostim;
 	Image tentacleim;
-
 	Image wakaim;
-	
 	Image roseim;
-
 	Image dragonim;
 	
-
-
 	//*** BILD RESIZABLE ICON F�R GRID ***
-
-	Image waterimage;
-
+	Image waterimage, aimi, leeri, hiti;
 	Image waterimagered;
-
 	Image waterimagegreen;
 	
 	
@@ -50,9 +39,6 @@ public class Spielfeld extends JPanel{
 		panel.setPreferredSize(new Dimension(520,520));
 		panel.setOpaque(false);
 		
-
-		
-
 
 		//*** BILD RESIZABLE ICON F�R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
@@ -118,11 +104,13 @@ public class Spielfeld extends JPanel{
 //	        			
 //	        		}
 //	            });
-			}
-			
+			}	
 		}
 	}
 	
+	
+	
+	// ********** MY GRID ERSTELLEN **********
 	public Spielfeld (Object[][] my, int size) {
 		
 		this.size=size;
@@ -145,8 +133,6 @@ public class Spielfeld extends JPanel{
 		ImageIcon dragon = new ImageIcon(Spielfeld.class.getResource("dragon.png"));
 		 dragonim = dragon.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 		
-
-
 		//*** BILD RESIZABLE ICON F�R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
@@ -208,57 +194,20 @@ public class Spielfeld extends JPanel{
 		
 	}
 	
-	
+
+// ********** AI GRID ERSTELLEN **********
 public Spielfeld (int size,Object[][] my){
 		
+		pos[0] = -1;
+		pos[1] = -1;
 		this.size=size;
 		JPanel panel = new JPanel(new GridLayout(size,size));
 		panel.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
 		panel.setPreferredSize(new Dimension(520,520));
 		panel.setOpaque(false);
 		
-		SpielLogikAI logik = new SpielLogikAI();
-		
-		logik.spielStart();
-		
-		// ********** MOUSE LISTENER F�R GRID ************
-		panel.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e){
-				//label.setBackground(Color.black);
-				int col;
-				int row;
-				int cellwidth = 520/size;
-				col = e.getX() / cellwidth;
-				row = e.getY() / cellwidth;
-				
-				pos [0] = col;
-				pos [1] = row;
-				
-				System.out.println("CLICKED ON: " + col + " " + row);
-
-				//label.setBackground(Color.red);
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-
-			}
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		});
+		//SpielLogikAI logik = new SpielLogikAI();
+		//logik.spielStart();
 		
 		//*** SCHIFFSBILDER
 		ImageIcon crab = new ImageIcon(Spielfeld.class.getResource("crab.png"));
@@ -279,19 +228,29 @@ public Spielfeld (int size,Object[][] my){
 		//*** BILD RESIZABLE ICON F�R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
-
-		
+		ImageIcon aimic  = new ImageIcon(Spielfeld.class.getResource("aim.png"));
+		 aimi = aimic.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
+		 ImageIcon leeric  = new ImageIcon(Spielfeld.class.getResource("empty.png"));
+		 leeri = leeric.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
+		 ImageIcon hitic  = new ImageIcon(Spielfeld.class.getResource("hit.png"));
+		 hiti = hitic.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
+		 
 		 Object [][] myGrid = my;
 			
 			for (int i = 0; i < myGrid.length; i++) {
 				for (int j = 0; j < myGrid[i].length; j++) {
-					if(myGrid[i][j].hashCode() == 20 || myGrid[i][j].hashCode() == 21) {
+					if(myGrid[i][j].hashCode() == 21) {
 						JLabel label = new JLabel();
-					    label.setIcon(new ImageIcon(roseim));
+					    label.setIcon(new ImageIcon(hiti));
 					    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
 					    panel.add(label);
 					}
-					
+					if(myGrid[i][j].hashCode() == 20) {
+						JLabel label = new JLabel();
+					    label.setIcon(new ImageIcon(leeri));
+					    label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.white));
+					    panel.add(label);
+					}
 					else {
 						JLabel label = new JLabel();
 					    label.setIcon(new ImageIcon(waterimage));
@@ -302,12 +261,54 @@ public Spielfeld (int size,Object[][] my){
 
 				}
 			}
+			
+			// ********** MOUSE LISTENER F�R GRID ************
+			panel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e){
+					
+					if(Window.myTurn == true) {
+						//label.setBackground(Color.black);
+						int col;
+						int row;
+						int cellwidth = 520/size;
+						col = e.getX() / cellwidth;
+						row = e.getY() / cellwidth;
+						
+						pos [0] = col;
+						pos [1] = row;
+						
+						System.out.println("CLICKED ON: " + col + " " + row);
+					}
+					//label.setBackground(Color.red);
+				}
+				@Override
+				public void mouseEntered(MouseEvent e) {
 
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+
+				}
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+			
 			add(panel);
 		
 	}
 
-	public int [] getPos() {
+	// ******** GET POSITION ********
+	static public int [] getPos() {
 		return pos;
 	}
 		
