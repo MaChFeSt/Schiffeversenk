@@ -6,13 +6,13 @@ import javax.swing.*;
 
 public class SpielLogikAI {
 
-    boolean meinZug = true;
+    static boolean meinZug = true;
 
     boolean spielLaeuft = true;
 
-    Object[][] aigrid = gui.Window.getaigrid();
+    static Object[][] aigrid = gui.Window.getaigrid();
 
-    Object[][] mygrid = gui.Window.getmyGrid();
+    static Object[][] mygrid = gui.Window.getmyGrid();
 
     int boardsize = gui.Window.getBoardsize();
 
@@ -33,7 +33,7 @@ public class SpielLogikAI {
             @Override
             public void run() {
                 while(spielLaeuft){
-                    System.out.println(meinZug);
+                    //System.out.println(meinZug);
                     if(meinZug){
                         int[] schussKoordinaten = gui.Spielfeld.getPos();
                         int x = schussKoordinaten[0];
@@ -70,7 +70,7 @@ public class SpielLogikAI {
      * Hier wird getestet wer am Zug ist, true f�r Spieler, false f�r AI.
      * @return boolean-Wert wer am Zug ist
      */
-    public boolean testeObMeinSpielzug(){
+    public static boolean testeObMeinSpielzug(){
         if(meinZug){
             return true;
         }else{
@@ -84,24 +84,28 @@ public class SpielLogikAI {
      * @param y Y-Koordinate vom Schuss
      * @return boolean-Wert ob der Schuss erfolgreich abgeschickt wurde
      */
-    boolean schussVonMenschAufAI(int x, int y){
-        if(testeObMeinSpielzug()){
+    public static void schussVonMenschAufAI(int x, int y){
+//        if(testeObMeinSpielzug()){
             //Teste ob der Schuss irgendein Schiff getroffen hat
             if (aigrid[x][y].equals(2) || aigrid[x][y].equals(3) || aigrid[x][y].equals(4) ||
                     aigrid[x][y].equals(5) || aigrid[x][y].equals(6) || aigrid[x][y].equals(7)) {
                 aigrid[x][y] = 21;
                 //gui.Spielfeld.updatefeld(aigrid);
-                meinZug = true;
-                return true;
+                Window.updateGrid(mygrid, aigrid);
+                Window.lp.validate();
+                System.out.println("getroffen.");
+                Window.myTurn();
             }else{
                 aigrid[x][y] = 20;
-                meinZug = false;
-                return false;
+                Window.updateGrid(mygrid, aigrid);
+                Window.lp.validate();
+                System.out.println("nicht getroffen.");
+                Window.aiTurn();
             }
-        }else{
-            System.out.println("ERROR BEIM SCHIESSEN VON MENSCH AUF AI");
-            return false;
-        }
+//        }else{
+//            System.out.println("ERROR BEIM SCHIESSEN VON MENSCH AUF AI");
+//            
+//        }
     }
 
     /**
