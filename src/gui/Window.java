@@ -6,6 +6,7 @@ import javax.swing.*;
 import Ai.*;
 import Logik.*;
 import gui.*;
+import gui.Window;
 
 
 //********** 2er SCHIFF : 		Waka
@@ -25,24 +26,29 @@ public class Window extends JFrame{
 	public static int l = 3;
 	Font font2 = new Font("SansSerif", Font.BOLD, 30);
 	static public int size = 0;
-	ConfirmButton conf;
+	
 	JTextField gridsize;
 	JLabel setSizeText;
 	public static JLayeredPane lp;
 	JLabel placeShipsText;
 	static JLabel myT;
 	static JLabel aiT;
+	public static JLabel won;
+	public static JLabel lost;
 	JButton place, start;
+	public static JButton menu;
+	public static JButton quit;
 	Spielfeld feld;
 	public static Spielfeld myFeld, aiFeld;
 	public static Object[][] myGrid;
 	public static Object[][] aigrid;
 	public static boolean myTurn = false, aiTurn = false, clicked=false;
-
 	
 	
 	public Window () {
 		
+		
+	
 		lp = getLayeredPane();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -56,14 +62,20 @@ public class Window extends JFrame{
 		setSizeText.setIcon(sizeText);
 		setSizeText.setBounds(355, 0, 500, 100);
 		
+		// DARKMODE
+		if(Gui.getDark()) {
+			JPanel darkback = new JPanel ();
+			darkback.setBounds(0, 0, 1280, 720);
+			darkback.setBackground(Color.BLACK);
+			lp.add(darkback, (0), 0);
+		}
 		
-		// TURN HINTERGRUND
-		
+		// TURN HINTERGRUND		
 		ImageIcon myBG = new ImageIcon(Window.class.getResource("myturn.png"));
 		myT = new JLabel();
 	    myT.setIcon(myBG);
 	    myT.setBounds(666, 0, 600, 680);
-	    
+	      
 		ImageIcon aiBG = new ImageIcon(Window.class.getResource("enemyturn.png"));
 		aiT = new JLabel();
 	    aiT.setIcon(aiBG);
@@ -73,6 +85,59 @@ public class Window extends JFrame{
 	    myT.setVisible(false);
 	    aiT.setVisible(false);
 
+	    
+	    //WINNING - LOSING - SCREEN
+	    ImageIcon wonim = new ImageIcon(Window.class.getResource("won.png"));
+		won = new JLabel();
+		won.setIcon(wonim);
+	    won.setBounds(170,0, 900, 506);
+	    lp.add(won, (100),100);
+	    
+	    ImageIcon lostim = new ImageIcon(Window.class.getResource("Losing.png"));
+		lost = new JLabel();
+		lost.setIcon(lostim);
+	    lost.setBounds(170,0, 900, 506);
+	    lp.add(lost, (100),100);
+	    
+	    ImageIcon iconquit = new ImageIcon(Gui.class.getResource("quit.png"));
+		 quit = new JButton(iconquit);
+		 quit.setIcon(iconquit);
+		 quit.setContentAreaFilled(false);
+		 quit.setBorderPainted(false);
+		 quit.setOpaque(false);
+		 quit.setBounds(380, 500, 200, 71);
+		 lp.add(quit,(102),102);
+		
+		 quit.addActionListener(new ActionListener() {
+			 public void actionPerformed(ActionEvent e) {
+				 System.exit(0);
+			 }
+		 });
+	    
+		 ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
+			menu = new JButton(iconmenu);
+			menu.setIcon(iconmenu);
+			menu.setContentAreaFilled(false);
+			menu.setBorderPainted(false);
+			menu.setOpaque(false);
+			menu.setBounds(700, 500, 200, 71);
+			lp.add(menu,(102),102);
+
+			menu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e)
+				{
+					dispose();
+					new Gui();
+					
+	            	lp.setVisible(false);
+				}
+			});
+		 
+		menu.setVisible(false);
+		quit.setVisible(false);
+		lost.setVisible(false);
+		won.setVisible(false);
+		 
 		// TEXTEINGABE
 		gridsize = new JTextField(3);
 		gridsize.setBounds(855, 22, 70, 50);
@@ -81,10 +146,42 @@ public class Window extends JFrame{
 	    
 		
 		// CONFIRMBUTTON
-		conf = new ConfirmButton();
-		conf.setBounds(825, 550, 200, 70);
-		lp.add(conf,(1),1);
-		conf.setVisible(false);
+		ImageIcon confB = new ImageIcon(Window.class.getResource("confirmbutton.png"));
+		Image confBu= confB.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
+		
+		JButton confirm = new JButton();
+		confirm.setIcon(new ImageIcon(confBu) );
+		confirm.setContentAreaFilled(false);
+		confirm.setBorderPainted(false);
+		confirm.setOpaque(false);
+					
+					
+			//********* MOUSELISTENER *********
+			confirm.addMouseListener(new MouseAdapter() {
+			
+				public void mouseClicked(MouseEvent e){
+			
+					if (size >= 5 && size <=30) {
+							confirm.setVisible(false);
+							setSizeText.setVisible(false);
+							gridsize.setVisible(false);
+							lp.validate();
+							goPlaceShipsScreen();
+									
+					}
+					else {
+							JOptionPane.showMessageDialog(null,
+										    "Nope.");
+					}
+				}
+			});
+		
+		
+		
+		
+		confirm.setBounds(825, 550, 200, 70);
+		lp.add(confirm,(1),1);
+		confirm.setVisible(false);
 		
 	    lp.add(setSizeText, (1),1);
 		lp.add(gridsize, (1),1);
@@ -111,7 +208,7 @@ public class Window extends JFrame{
 					feld = new Spielfeld(size);
 					feld.setBounds(50, 100, 520, 520);
 					lp.add(feld, (20),20);
-					conf.setVisible(true); 
+					confirm.setVisible(true); 
 					lp.validate();
 				}
 			}
@@ -294,6 +391,20 @@ public class Window extends JFrame{
 	}
 	
 	public static void myTurn(){
+		
+		//CHECK IF WON
+		if(SpielLogikAI.aiSpielfeldDurchlaufen()) {
+			System.out.println("YOU WIN");
+			won.setVisible(true);
+			menu.setVisible(true);
+			quit.setVisible(true);
+		}
+		if(SpielLogikAI.spielerSpielfeldDurchlaufen()) {
+			System.out.println("YOU LOST");
+			lost.setVisible(true);
+			menu.setVisible(true);
+			quit.setVisible(true);
+		}
 		myTurn = true;
 		aiT.setVisible(false);
 		myT.setVisible(true);
@@ -301,60 +412,38 @@ public class Window extends JFrame{
 		}
 	
 	public static void aiTurn(){
+		//CHECK IF WON
+		if(SpielLogikAI.aiSpielfeldDurchlaufen()) {
+			System.out.println("YOU WIN");
+			won.setVisible(true);
+			menu.setVisible(true);
+			quit.setVisible(true);
+		}
+		if(SpielLogikAI.spielerSpielfeldDurchlaufen()) {
+			System.out.println("YOU LOST");
+			lost.setVisible(true);
+			menu.setVisible(true);
+			quit.setVisible(true);
+		}
 		myTurn = false;
 		myT.setVisible(false);
 		aiT.setVisible(true);
 		
 		if(aishot.aischiesst(size, myGrid)) {
 			updateGrid(myGrid, aigrid);	
-			
+			lp.validate();
 			aiTurn();
 		}
 		else {
 			updateGrid(myGrid, aigrid);
-			
+			lp.validate();
 			myTurn();
 		}
 		lp.validate();
 		}
 	
-	// ********** CONFIRMBUTTON **********
-	class ConfirmButton extends JPanel {
-		JButton confirm;
-		ImageIcon confB = new ImageIcon(ConfirmButton.class.getResource("confirmbutton.png"));
-		Image confBu= confB.getImage().getScaledInstance(200, 70, Image.SCALE_SMOOTH);
-		
-		
-		public ConfirmButton() {
-			JButton confirm = new JButton();
-			confirm.setIcon(new ImageIcon(confBu) );
-			confirm.setContentAreaFilled(false);
-			confirm.setBorderPainted(false);
-			confirm.setOpaque(false);
-			add(confirm);
-						
-						
-				//********* MOUSELISTENER *********
-				confirm.addMouseListener(new MouseAdapter() {
-				
-					public void mouseClicked(MouseEvent e){
-				
-						if (size >= 5 && size <=30) {
-								conf.setVisible(false);
-								setSizeText.setVisible(false);
-								gridsize.setVisible(false);
-								lp.validate();
-								goPlaceShipsScreen();
-										
-						}
-						else {
-								JOptionPane.showMessageDialog(null,
-											    "Nope.");
-						}
-					}
-				});
-			}
-	}		
+	
+			
 	
 	public static void setClickedFalse() {
 		clicked = false;
