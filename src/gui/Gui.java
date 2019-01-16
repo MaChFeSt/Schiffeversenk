@@ -16,7 +16,7 @@ public class Gui extends Thread {
 				  boardleft = new JPanel(),
 				  boardright = new JPanel();
 	public Host host1;
-	 
+	public static boolean darkm = false;
 	 
 	
 	public Gui(){
@@ -291,7 +291,7 @@ public class Gui extends Thread {
         		JLabel howtoplay4= new JLabel("firing shots by clicking on grid coordinates.");
         		JLabel howtoplay5= new JLabel("Your goal is to shoot down enemy ships");
         		JLabel howtoplay6= new JLabel("before he shoots down yours.");
-        		//Schriftart ändern*******************
+        		//Schriftart Ã¤ndern*******************
         		Font schriftart = new Font("SansSerif", Font.BOLD, 18);
         		Font schriftart1 = new Font("SansSerif", Font.PLAIN, 15);
         		howtoplay.setFont(schriftart);
@@ -301,7 +301,7 @@ public class Gui extends Thread {
         		howtoplay4.setFont(schriftart1);
         		howtoplay5.setFont(schriftart1);
         		howtoplay6.setFont(schriftart1);
-        		//Farbe ändern************************
+        		//Farbe Ã¤ndern************************
         		howtoplay.setForeground(Color.BLACK);
         		howtoplay1.setForeground(Color.BLACK);
         		howtoplay2.setForeground(Color.BLACK);
@@ -309,7 +309,7 @@ public class Gui extends Thread {
         		howtoplay4.setForeground(Color.BLACK);
         		howtoplay5.setForeground(Color.BLACK);
         		howtoplay6.setForeground(Color.BLACK);
-        		//JLabel hinzufügen*********************
+        		//JLabel hinzufÃ¼gen*********************
         		panelhelp.add(howtoplay);
         		panelhelp.add(howtoplay1); 
         		panelhelp.add(howtoplay2);
@@ -318,7 +318,7 @@ public class Gui extends Thread {
         		panelhelp.add(howtoplay5);
         		panelhelp.add(howtoplay6);
         		
-        		//Zurück zum Menü BUTTON**************
+        		//ZurÃ¼ck zum MenÃ¼ BUTTON**************
         		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
 	        	JButton menu = new JButton(iconmenu);
        		 		menu.setIcon(iconmenu);
@@ -379,6 +379,7 @@ public class Gui extends Thread {
  	            	
  	            	boardbottom.setBackground(null);
  	            	boardpanel.setBackground(null);
+ 	            	darkm = false;
  	            }
     		 });
    		 	
@@ -390,10 +391,10 @@ public class Gui extends Thread {
 	  
 	           	 	boardtop.setBackground(Color.BLACK);
 
-	           	 	Color customColor = new Color(139,137,112);
+	           	 	Color customColor = new Color(139,137,132);
 	            	boardbottom.setBackground(customColor);
 	            	boardpanel.setBackground(customColor);
-	            	
+	            	darkm = true;
 	           	 
 	            
 	            }
@@ -425,6 +426,12 @@ public class Gui extends Thread {
 	 frame.pack();
 }
 
+	public static boolean getDark() {
+		if(darkm == true) return true;
+		else return false;
+	}
+	
+	
 	public void warteAufConnection(Host host){
 
 		int sec = 120;
