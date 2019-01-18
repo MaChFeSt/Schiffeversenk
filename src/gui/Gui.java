@@ -3,8 +3,8 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
-import Network.Client;
-import Network.Host;
+
+import Network.*;
 
 
 public class Gui extends Thread {

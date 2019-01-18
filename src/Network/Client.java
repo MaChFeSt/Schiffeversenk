@@ -122,7 +122,7 @@ public class Client extends Thread {
      * gespeichert und anschließend an den Partner geschickt wird.
      * @param x X-Koordinate des Schusses
      * @param y Y-Koordinate des Schusses
-     * @return Rückgabe: boolean-Wert ob der Schuss geschickt wurde oder nicht.
+     * @return Rueckgabe: boolean-Wert ob der Schuss geschickt wurde oder nicht.
      */
     public boolean schickeSchuss(int x, int y){
         if(x > 0 && y > 0) {
