@@ -5,8 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import Ai.*;
 import Logik.*;
-import gui.*;
-import gui.Window;
 
 
 //********** 2er SCHIFF : 		Waka
@@ -24,21 +22,21 @@ public class Window extends JFrame{
 	static int pos [] = new int[2];
 	public static int startint = 0;
 	public static int l = 3;
-	Font font2 = new Font("SansSerif", Font.BOLD, 30);
-	static public int size = 0;
+	public Font font2 = new Font("SansSerif", Font.BOLD, 30);
+	static public int size;
 	
-	JTextField gridsize;
-	JLabel setSizeText;
+	public JTextField gridsize;
+	public JLabel setSizeText;
 	public static JLayeredPane lp;
-	JLabel placeShipsText;
-	static JLabel myT;
-	static JLabel aiT;
+	public JLabel placeShipsText;
+	public static JLabel myT;
+	public static JLabel aiT;
 	public static JLabel won;
 	public static JLabel lost;
-	JButton place, start;
+	public JButton place, start;
 	public static JButton menu;
 	public static JButton quit;
-	Spielfeld feld;
+	public Spielfeld feld;
 	public static Spielfeld myFeld, aiFeld;
 	public static Object[][] myGrid;
 	public static Object[][] aigrid;
@@ -47,8 +45,11 @@ public class Window extends JFrame{
 	
 	public Window () {
 		
-		
-	
+		startint= 0;
+		size = 0;
+
+				
+				
 		lp = getLayeredPane();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -165,6 +166,8 @@ public class Window extends JFrame{
 							confirm.setVisible(false);
 							setSizeText.setVisible(false);
 							gridsize.setVisible(false);
+							myGrid = new Object [size][size];
+							aigrid = new Object [size][size];
 							lp.validate();
 							goPlaceShipsScreen();
 									
@@ -392,19 +395,6 @@ public class Window extends JFrame{
 	
 	public static void myTurn(){
 		
-		//CHECK IF WON
-		if(SpielLogikAI.aiSpielfeldDurchlaufen()) {
-			System.out.println("YOU WIN");
-			won.setVisible(true);
-			menu.setVisible(true);
-			quit.setVisible(true);
-		}
-		if(SpielLogikAI.spielerSpielfeldDurchlaufen()) {
-			System.out.println("YOU LOST");
-			lost.setVisible(true);
-			menu.setVisible(true);
-			quit.setVisible(true);
-		}
 		myTurn = true;
 		aiT.setVisible(false);
 		myT.setVisible(true);
@@ -412,19 +402,8 @@ public class Window extends JFrame{
 		}
 	
 	public static void aiTurn(){
-		//CHECK IF WON
-		if(SpielLogikAI.aiSpielfeldDurchlaufen()) {
-			System.out.println("YOU WIN");
-			won.setVisible(true);
-			menu.setVisible(true);
-			quit.setVisible(true);
-		}
-		if(SpielLogikAI.spielerSpielfeldDurchlaufen()) {
-			System.out.println("YOU LOST");
-			lost.setVisible(true);
-			menu.setVisible(true);
-			quit.setVisible(true);
-		}
+
+		
 		myTurn = false;
 		myT.setVisible(false);
 		aiT.setVisible(true);
@@ -432,6 +411,19 @@ public class Window extends JFrame{
 		if(aishot.aischiesst(size, myGrid)) {
 			updateGrid(myGrid, aigrid);	
 			lp.validate();
+			//CHECK IF WON
+			if(SpielLogikAI.aiSpielfeldDurchlaufen()) {
+				System.out.println("YOU WIN");
+				won.setVisible(true);
+				menu.setVisible(true);
+				quit.setVisible(true);
+			}
+			if(SpielLogikAI.spielerSpielfeldDurchlaufen()) {
+				System.out.println("YOU LOST");
+				lost.setVisible(true);
+				menu.setVisible(true);
+				quit.setVisible(true);
+			}
 			aiTurn();
 		}
 		else {

@@ -16,7 +16,6 @@ public class SpielLogikAI {
 
     int boardsize = gui.Window.getBoardsize();
 
-
     int altePos [] = new int[2];
 
     /**
@@ -94,10 +93,24 @@ public class SpielLogikAI {
                 Window.updateGrid(mygrid, aigrid);
                 Window.lp.validate();
                 System.out.println("getroffen.");
+        		//CHECK IF WON
+        		if(aiSpielfeldDurchlaufen()) {
+        			System.out.println("YOU WIN");
+        			Window.won.setVisible(true);
+        			Window.menu.setVisible(true);
+        			Window.quit.setVisible(true);
+        		}
+        		if(spielerSpielfeldDurchlaufen()) {
+        			System.out.println("YOU LOST");
+        			Window.lost.setVisible(true);
+        			Window.menu.setVisible(true);
+        			Window.quit.setVisible(true);
+        		}
                 Window.myTurn();
             }else{
                 aigrid[x][y] = 20;
                 Window.updateGrid(mygrid, aigrid);
+                Window.myT.setVisible(false);
                 Window.lp.validate();
                 System.out.println("nicht getroffen.");
                 Window.aiTurn();
@@ -112,7 +125,7 @@ public class SpielLogikAI {
      * Hier wird das Spielfeld vom Spieler durchlaufen, um zu schauen ob das Spiel zuende ist.
      * @return boolean-Wert true wenn das Spiel vorbei ist
      */
-    boolean spielerSpielfeldDurchlaufen(){
+    public static boolean spielerSpielfeldDurchlaufen(){
         for (int i = 0; i < mygrid.length; i++) {
             for (int j = 0; j < mygrid[i].length; j++) {
                 if (mygrid[i][j].equals(2) || mygrid[i][j].equals(3) || mygrid[i][j].equals(4) ||
@@ -128,7 +141,7 @@ public class SpielLogikAI {
      * Hier wird das Spielfeld von der AI durchlaufen, um zu schauen ob das Spiel zuende ist.
      * @return boolean-Wert true wenn das Spiel vorbei ist
      */
-    boolean aiSpielfeldDurchlaufen(){
+    public static boolean aiSpielfeldDurchlaufen(){
         for (int i = 0; i < aigrid.length; i++) {
             for (int j = 0; j < aigrid[i].length; j++) {
                 if (aigrid[i][j].equals(2) || aigrid[i][j].equals(3) || aigrid[i][j].equals(4) ||

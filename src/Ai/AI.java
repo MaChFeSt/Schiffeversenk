@@ -8,7 +8,7 @@ public class AI {
     int counter=0;
 
 
-    AI() {
+    public AI() {
     }
 
     public Object[][] setaiships(int boardsize) {

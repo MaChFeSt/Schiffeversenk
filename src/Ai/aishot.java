@@ -10,7 +10,7 @@ public class aishot {
     private static int hit=0;
     static int  destroyed=0;
     static int search=0;
-    static int schifflÃ¤nge;
+    static int schifflänge;
     static int schiffstreffer=0;
     static int ytreffer;
     static int xtreffer;
@@ -20,7 +20,7 @@ public class aishot {
     static int left=0;
     static int outoffield=0;
     static int counter=0;
-    static int zÃ¤hler=1;
+    static int zähler=1;
     static int horizontal=0;
     static int vertikal=0;
     static int abbruch=0;
@@ -31,13 +31,13 @@ public class aishot {
     public static boolean aischiesst(int boardsize, Object myGrid[][]){
 
 
-    	try {
-			TimeUnit.SECONDS.sleep(1);
-			System.out.println("ich schlafe.");
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//    	try {
+//			TimeUnit.SECONDS.sleep(1);
+//			System.out.println("ich schlafe.");
+//		} catch (InterruptedException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 
         int size = boardsize;
@@ -64,22 +64,22 @@ public class aishot {
                 counter=1;
 
                 if(myGrid[random1][random2].equals(2)){
-                    schifflÃ¤nge=2;
+                    schifflänge=2;
                 }
                 if(myGrid[random1][random2].equals(3)){
-                    schifflÃ¤nge=3;
+                    schifflänge=3;
                 }
                 if(myGrid[random1][random2].equals(4)){
-                    schifflÃ¤nge=4;
+                    schifflänge=4;
                 }
                 if(myGrid[random1][random2].equals(5)){
-                    schifflÃ¤nge=5;
+                    schifflänge=5;
                 }
                 if(myGrid[random1][random2].equals(6)){
-                    schifflÃ¤nge=6;
+                    schifflänge=6;
                 }
                 if(myGrid[random1][random2].equals(7)){
-                    schifflÃ¤nge=7;
+                    schifflänge=7;
                 }
                 myGrid[random1][random2]=21;
                 return true;
@@ -94,7 +94,7 @@ public class aishot {
         //------------------------------------------------------------------------------------------------
         if(hit==1 && search==1 && schiffstreffer==1 && above==0){
             if(schiffstreffer==1){
-                //-----Ã¼ber ersten Treffer schieÃŸen-------------------------------------------------------
+                //-----über ersten Treffer schießen-------------------------------------------------------
                 if ( ytreffer- 1 >= 0){
                     outoffield=0;
                     if(myGrid[ytreffer-1][xtreffer].equals(0) || myGrid[ytreffer-1][xtreffer].equals(9)
@@ -104,7 +104,7 @@ public class aishot {
                         myGrid[ytreffer-1][xtreffer]=20;
                         return false;
                     }
-                    if(myGrid[ytreffer-1][xtreffer].equals(schifflÃ¤nge)){
+                    if(myGrid[ytreffer-1][xtreffer].equals(schifflänge)){
                         hit=1;
                         schiffstreffer=2;
                         above=1;
@@ -112,7 +112,7 @@ public class aishot {
                         counter++;
                         myGrid[ytreffer-1][xtreffer]=21;
 
-                        if(schifflÃ¤nge==counter){
+                        if(schifflänge==counter){
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -122,7 +122,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
                         return true;
@@ -140,7 +140,7 @@ public class aishot {
         }
         //------------------------------------------------------------------------------------------------
         if(hit==0 && search==1 && schiffstreffer==1 && above==1 && below==0 && left==0 && right==0){
-            //----unter ersten Treffer schieÃŸen-----------------------------------------------------------
+            //----unter ersten Treffer schießen-----------------------------------------------------------
             if(ytreffer+1 <= size-1){
                 outoffield=0;
                 if(myGrid[ytreffer+1][xtreffer].equals(0) || myGrid[ytreffer+1][xtreffer].equals(9)
@@ -150,7 +150,7 @@ public class aishot {
                     myGrid[ytreffer+1][xtreffer]=20;
                     return false;
                 }
-                if(myGrid[ytreffer+1][xtreffer].equals(schifflÃ¤nge)){
+                if(myGrid[ytreffer+1][xtreffer].equals(schifflänge)){
                     hit=1;
                     schiffstreffer=2;
                     below=1;
@@ -158,7 +158,7 @@ public class aishot {
                     counter++;
                     myGrid[ytreffer+1][xtreffer]=21;
 
-                    if(schifflÃ¤nge==counter){
+                    if(schifflänge==counter){
                         destroyed=1;
                         search=0;
                         hit=0;
@@ -168,7 +168,7 @@ public class aishot {
                         left=0;
                         vertikal=0;
                         horizontal=0;
-                        zÃ¤hler=1;
+                        zähler=1;
                         abbruch=0;
                     }
                     return true;
@@ -185,7 +185,7 @@ public class aishot {
         }
         //--------------------------------------------------------------------------------------------------
         if(hit==0 && search==1 && schiffstreffer==1 && above==1 && below==1 && left==0 && right ==0){
-            //----links von ersten treffer schieÃŸen---------------------------------------------------------
+            //----links von ersten treffer schießen---------------------------------------------------------
             if(xtreffer-1 >= 0){
                 outoffield=0;
                 if(myGrid[ytreffer][xtreffer-1].equals(0) || myGrid[ytreffer][xtreffer-1].equals(9)
@@ -196,7 +196,7 @@ public class aishot {
                     return false;
 
                 }
-                if(myGrid[ytreffer][xtreffer-1].equals(schifflÃ¤nge)){
+                if(myGrid[ytreffer][xtreffer-1].equals(schifflänge)){
                     hit=1;
                     schiffstreffer=2;
                     left=1;
@@ -204,7 +204,7 @@ public class aishot {
                     counter++;
                     myGrid[ytreffer][xtreffer-1]=21;
 
-                    if(schifflÃ¤nge==counter){
+                    if(schifflänge==counter){
                         destroyed=1;
                         search=0;
                         hit=0;
@@ -214,7 +214,7 @@ public class aishot {
                         left=0;
                         vertikal=0;
                         horizontal=0;
-                        zÃ¤hler=1;
+                        zähler=1;
                         abbruch=0;
                     }
                     return true;
@@ -232,7 +232,7 @@ public class aishot {
         }
         //----------------------------------------------------------------------------------------------------
         if(hit==0 && search==1 && schiffstreffer==1 && above==1 && below==1 && left==1 && right ==0){
-            //----rechts von ersten treffer schieÃŸen---------------------------------------------------------
+            //----rechts von ersten treffer schießen---------------------------------------------------------
             if(xtreffer+1 <= size-1){
                 outoffield=0;
                 if(myGrid[ytreffer][xtreffer+1].equals(0) || myGrid[ytreffer][xtreffer+1].equals(9)
@@ -242,7 +242,7 @@ public class aishot {
                     myGrid[ytreffer][xtreffer+1]=20;
                     return false;
                 }
-                if(myGrid[ytreffer][xtreffer+1].equals(schifflÃ¤nge)){
+                if(myGrid[ytreffer][xtreffer+1].equals(schifflänge)){
                     hit=1;
                     schiffstreffer=2;
                     right=1;
@@ -250,7 +250,7 @@ public class aishot {
                     counter++;
                     myGrid[ytreffer][xtreffer+1]=21;
 
-                    if(schifflÃ¤nge==counter){
+                    if(schifflänge==counter){
                         destroyed=1;
                         search=0;
                         hit=0;
@@ -260,7 +260,7 @@ public class aishot {
                         left=0;
                         vertikal=0;
                         horizontal=0;
-                        zÃ¤hler=1;
+                        zähler=1;
                         abbruch=0;
                     }
                     return true;
@@ -280,14 +280,14 @@ public class aishot {
         //weitere Treffer
         //------------------------------------------------------------------------------------------------------
         if(vertikal==1){
-            //nach oben schieÃŸen
+            //nach oben schießen
             if(above==1 && below==0){
                 while(ytreffer-counter >= 0 && abbruch==0){
-                    if(myGrid[ytreffer-counter][xtreffer].equals(schifflÃ¤nge)){
+                    if(myGrid[ytreffer-counter][xtreffer].equals(schifflänge)){
                         schiffstreffer++;
                         myGrid[ytreffer-counter][xtreffer]=21;
                         counter++;
-                        if(schifflÃ¤nge==schiffstreffer){   //???????????????????????????????????????
+                        if(schifflänge==schiffstreffer){   //???????????????????????????????????????
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -297,7 +297,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
 
@@ -313,12 +313,12 @@ public class aishot {
                 if(ytreffer-counter < 0){
                     abbruch=1;
                 }
-                while(schifflÃ¤nge!=schiffstreffer && abbruch==1){
-                    if(myGrid[ytreffer+zÃ¤hler][xtreffer].equals(schifflÃ¤nge)){
+                while(schifflänge!=schiffstreffer && abbruch==1){
+                    if(myGrid[ytreffer+zähler][xtreffer].equals(schifflänge)){
                         schiffstreffer++;
-                        myGrid[ytreffer+zÃ¤hler][xtreffer]=21;
-                        zÃ¤hler++;
-                        if(schifflÃ¤nge==schiffstreffer){
+                        myGrid[ytreffer+zähler][xtreffer]=21;
+                        zähler++;
+                        if(schifflänge==schiffstreffer){
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -328,7 +328,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
 
@@ -341,11 +341,11 @@ public class aishot {
             //nach unten schiessen
             if(above==1 && below==1 ){
                 while(ytreffer+counter <= size-1 && abbruch==0){
-                    if(myGrid[ytreffer+counter][xtreffer].equals(schifflÃ¤nge)){
+                    if(myGrid[ytreffer+counter][xtreffer].equals(schifflänge)){
                         schiffstreffer++;
                         myGrid[ytreffer+counter][xtreffer]=21;
                         counter++;
-                        if(schifflÃ¤nge==schiffstreffer){
+                        if(schifflänge==schiffstreffer){
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -355,7 +355,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
 
@@ -372,12 +372,12 @@ public class aishot {
                 if(ytreffer+counter > size-1){
                     abbruch=1;
                 }
-                while(schifflÃ¤nge!=schiffstreffer && abbruch==1){
-                    if(myGrid[ytreffer-zÃ¤hler][xtreffer].equals(schifflÃ¤nge)){
+                while(schifflänge!=schiffstreffer && abbruch==1){
+                    if(myGrid[ytreffer-zähler][xtreffer].equals(schifflänge)){
                         schiffstreffer++;
-                        myGrid[ytreffer-zÃ¤hler][xtreffer]=21;
-                        zÃ¤hler++;
-                        if(schifflÃ¤nge==schiffstreffer){
+                        myGrid[ytreffer-zähler][xtreffer]=21;
+                        zähler++;
+                        if(schifflänge==schiffstreffer){
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -387,7 +387,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
 
@@ -403,11 +403,11 @@ public class aishot {
             //nach links schiessen
             if(above==1 && below==1 && left==1 && right==0){
                 while(xtreffer-counter >=0 && abbruch==0){
-                    if(myGrid[ytreffer][xtreffer-counter].equals(schifflÃ¤nge)){
+                    if(myGrid[ytreffer][xtreffer-counter].equals(schifflänge)){
                         schiffstreffer++;
                         myGrid[ytreffer][xtreffer-counter]=21;
                         counter++;
-                        if(schifflÃ¤nge==schiffstreffer){
+                        if(schifflänge==schiffstreffer){
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -417,7 +417,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
 
@@ -433,12 +433,12 @@ public class aishot {
                 if(xtreffer-counter < 0){
                     abbruch=1;
                 }
-                while(schifflÃ¤nge!=schiffstreffer && abbruch==1){
-                    if(myGrid[ytreffer][xtreffer+zÃ¤hler].equals(schifflÃ¤nge)){
+                while(schifflänge!=schiffstreffer && abbruch==1){
+                    if(myGrid[ytreffer][xtreffer+zähler].equals(schifflänge)){
                         schiffstreffer++;
-                        myGrid[ytreffer][xtreffer+zÃ¤hler]=21;
-                        zÃ¤hler++;
-                        if(schifflÃ¤nge==schiffstreffer){
+                        myGrid[ytreffer][xtreffer+zähler]=21;
+                        zähler++;
+                        if(schifflänge==schiffstreffer){
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -448,7 +448,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
 
@@ -460,11 +460,11 @@ public class aishot {
             //nach rechts schiessen
             if(above==1 && below==1 && left==1 && right==1){
                 while(xtreffer+counter <=size-1 && abbruch==0){
-                    if(myGrid[ytreffer][xtreffer+counter].equals(schifflÃ¤nge)){
+                    if(myGrid[ytreffer][xtreffer+counter].equals(schifflänge)){
                         schiffstreffer++;
                         myGrid[ytreffer][xtreffer+counter]=21;
                         counter++;
-                        if(schifflÃ¤nge==schiffstreffer){
+                        if(schifflänge==schiffstreffer){
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -474,7 +474,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
 
@@ -490,12 +490,12 @@ public class aishot {
                 if(xtreffer+counter > size-1){
                     abbruch=1;
                 }
-                while(schifflÃ¤nge!=schiffstreffer && abbruch==1){
-                    if(myGrid[ytreffer][xtreffer-zÃ¤hler].equals(schifflÃ¤nge)){
+                while(schifflänge!=schiffstreffer && abbruch==1){
+                    if(myGrid[ytreffer][xtreffer-zähler].equals(schifflänge)){
                         schiffstreffer++;
-                        myGrid[ytreffer][xtreffer-zÃ¤hler]=21;
-                        zÃ¤hler++;
-                        if(schifflÃ¤nge==schiffstreffer){
+                        myGrid[ytreffer][xtreffer-zähler]=21;
+                        zähler++;
+                        if(schifflänge==schiffstreffer){
                             destroyed=1;
                             search=0;
                             hit=0;
@@ -505,7 +505,7 @@ public class aishot {
                             left=0;
                             vertikal=0;
                             horizontal=0;
-                            zÃ¤hler=1;
+                            zähler=1;
                             abbruch=0;
                         }
 
