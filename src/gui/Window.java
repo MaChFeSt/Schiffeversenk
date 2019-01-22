@@ -16,6 +16,10 @@ import Logik.*;
 
 
 
+/**	<h1>Window</h1>
+ *	Die Klasse Window erstellt unseren Spielbildschirm,
+ *	auf dem das Spielfeld gebaut wird.
+ */
 @SuppressWarnings("serial")
 public class Window extends JFrame{
 	
@@ -43,6 +47,10 @@ public class Window extends JFrame{
 	public static boolean myTurn = false, aiTurn = false, clicked=false;
 	
 	
+	/** <h1>Konstruktor</h1>
+	 * 	Hier werden alle JComponents auf den Panel gebaut.
+	 * 	Das Spiel wird im Spielfeldgroesse-Bildschirm gestartet.
+	 */
 	public Window () {
 		
 		startint= 0;
@@ -224,6 +232,13 @@ public class Window extends JFrame{
 		
 	}
 	
+	/** <h1>Methode goPlaceShipsScreen</h1>
+	 * 	
+	 * hier wechselt man in den Bildschirm, bei dem man die Schiffe platzieren kann.
+	 * Mit einem Click auf den Place Button werden die Schiffe zufällig platziert.
+	 * Diesen Vorgang kann man beliebig oft wiederholen.
+	 * Bei erfolgreichem Platzieren erscheint der Start-Button, mit dem man das Spiel startet. 
+	 */
 	public void goPlaceShipsScreen() {
 		ImageIcon placeShip = new ImageIcon(Window.class.getResource("PlaceShips.png"));
 		placeShipsText = new JLabel();
@@ -382,18 +397,41 @@ public class Window extends JFrame{
 		lp.validate();
 	}
 	
+	
+	/**<h1>Methode getmyGrid</h1>
+	 * 
+	 * @return myGrid 	mein Spielfeld wird zurueckgegeben
+	 */
 	static public Object[][] getmyGrid() {
 		return myGrid;
 	}
 	
+	
+	/**<h1>Methode getaigrid</h1>
+	 * 
+	 * @return aigrid   das gegnerische Spielfeld wird zurueckgegeben
+	 */
 	static public Object[][] getaigrid() {
 		return aigrid;
 	}
 
+	
+	/**<h1>Methode getBoardsize</h1>
+	 * 
+	 * @return boardsize	Die eingegeben Spielfeldgroesse wird zurueckgegeben
+	 */
 	static public int getBoardsize() {
 		return size; 
 	}
 	
+	/**<h1>Methode myTurn</h1>
+	 * 
+	 * Diese Methode wird aufgerufen, sobald der gegnerische Zug vorbei ist, oder
+	 * nach einem erfolgreichen Treffer vom Spieler.
+	 * 
+	 * myTurn wird auf true gesetzt, damit der MouseClicker auf den gegnerischen
+	 * Feld aktiviert wird.
+	 */
 	public static void myTurn(){
 		
 		myTurn = true;
@@ -402,6 +440,15 @@ public class Window extends JFrame{
 		lp.validate();
 		}
 	
+	
+	/**<h1>Methode aiTurn</h1>
+	 * 
+	 * Diese Methode wird aufgerufen, sobald der Gegner einen erfolgreichen Treffer hatte
+	 * oder der Zug des Spielers vorbei ist.
+	 * Hier wird auch die Methode aufgerufen, mit der man sieht ob der Gegner getroffen hat
+	 * und ob das Spiel damit beendet ist.
+	 * 
+	 */
 	public static void aiTurn(){
 
 		
@@ -450,6 +497,11 @@ public class Window extends JFrame{
 		return clicked;
 	}
 	
+	
+	/**<h1>Methode updateGrid</h1>
+	 * @param mein Spielfeld
+	 * @param gegnerisches Spielfeld
+	 */
 	public static void updateGrid(Object [][] my, Object [][] ai) {
 		
 		lp.remove(myFeld);
@@ -477,5 +529,4 @@ public class Window extends JFrame{
 		lp.validate();
 	}
 }
-
 
