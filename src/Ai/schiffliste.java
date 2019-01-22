@@ -16,6 +16,13 @@ public class schiffliste {
 
     }
 
+    /**
+     * Ruft anhand der uebergebenen groesse des Spielfelds die zugehoerige Schiffliste ab und speichert diese in einem
+     * Array, das zurueckgegeben wird.
+     * @param boardsize uebergibt die groesse des Spielfelds
+     * @return Gibt das array schiflliste zurueck, dass den schiffnamen und die Anzahl erhält
+     */
+
     public schiffliste[] getship(int boardsize) {
         int size = boardsize;
 
@@ -346,8 +353,7 @@ public class schiffliste {
         for (int i=0;i<schifftyp.length;i++) {
             System.out.println("Schifftyp "+schifftyp[i].schiffname+"   Anzahl "+schifftyp[i].anzahl);
 
-            int random = (int )(Math.random() * 2 + 0);
-            System.out.println(random);
+
         }
     }
 

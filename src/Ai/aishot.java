@@ -1,6 +1,5 @@
 package Ai;
 
-import java.util.concurrent.TimeUnit;
 
 public class aishot {
 
@@ -27,6 +26,17 @@ public class aishot {
     public aishot(){
     }
 
+    /**
+     * Die Methode aischiesst, feuert solange auf zufaellige Koordinaten bis ein Schiff getroffen wird. Nach dem ersten
+     * Treffer feuert sie auf die umliegenden Felder des ersten Treffers. Durch den zweiten Treffer wird festgestellt
+     * ob das Schiff horizontal oder vertikal positioniert ist. Je nach positionierung wird so lange in eine richtung
+     * weitergefeuert bis das Schiff versenkt ist oder Wasser getroffen wird. Falls Wasser getroffen wird in die
+     * gegenueberliegende Richtung weiter geschossen bis das Schiff versenkt ist.
+     * @param boardsize uebergibt die groesse des Spielfelds
+     * @param myGrid uebergibt das belegte Spielfeld des Spielers
+     * @return Gibt true zurueck falls ein Schiff des Spielers getroffen wurde, gibt false zurueck falls nichts
+     * getroffen wurde
+     */
 
     public static boolean aischiesst(int boardsize, Object myGrid[][]){
 
