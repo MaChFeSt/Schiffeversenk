@@ -47,9 +47,7 @@ public class Window extends JFrame{
 		
 		startint= 0;
 		size = 0;
-
-				
-				
+	
 		lp = getLayeredPane();
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -63,6 +61,9 @@ public class Window extends JFrame{
 		setSizeText.setIcon(sizeText);
 		setSizeText.setBounds(355, 0, 500, 100);
 		
+		JLabel early = new JLabel("EARLY ACCESS v.0.42");
+		early.setBounds(50, 0, 200, 50);
+		lp.add(early);
 		// DARKMODE
 		if(Gui.getDark()) {
 			JPanel darkback = new JPanel ();
