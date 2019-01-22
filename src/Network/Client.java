@@ -67,10 +67,10 @@ public class Client extends Thread {
     }
 
     /**
-     * Hier wird auf die antwort vom gegenueber gehoert.
-     * @return ?? noch nix
+     * Hier wird auf die antwort vom gegenueber gehoert. Es wird auch unterschieden, was für eine Nachricht vom
+     * gegenueber geschickt wurde.
      */
-    public String listen(){
+    public void listen(){
         try{
             String line = reader.readLine();
             //System.out.println(line);
@@ -106,7 +106,6 @@ public class Client extends Thread {
         }catch(Exception e){
             e.printStackTrace();
         }
-        return null;
     }
 
     /**
@@ -118,7 +117,7 @@ public class Client extends Thread {
     }
 
     /**
-     * Ein Schuss inklusive der Koordinaten,der in ein JSON-Object
+     * Ein Schuss inklusive der Koordinaten, der in ein JSON-Object
      * gespeichert und anschließend an den Partner geschickt wird.
      * @param x X-Koordinate des Schusses
      * @param y Y-Koordinate des Schusses
@@ -154,7 +153,7 @@ public class Client extends Thread {
     }
 
     /**
-     * Weiß noch nicht, was das macht.
+     * 
      */
     public void messageConfirm(){
         Header h = new Header("Game", "Confirm");
