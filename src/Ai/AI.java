@@ -11,6 +11,15 @@ public class AI {
     public AI() {
     }
 
+    /**
+     * Die Methode setaiships erstellt ahnhand der uebergeben Spielfeldgröße ein zweidimensionales array und ruft die
+     * zugehoerige Schiffliste auf. Durch eine Zufallsvariable wird bestimmt ob das zu platzierende Schiff horizontal
+     * oder vertikal platzierd wird. Das Schiff wird auf zufaelligen Koordinaten gespeichert, so lange diese nicht von
+     * einem Schiff oder dessen Rahmen belegt ist. Sollte es durch eine unguenstige Belgung des Feldes nicht moeglich
+     * sein alle Schiffe zu platzieren, wird die Belegung des Feldes verworfen und von vorne begonnen.
+     * @param boardsize uebergibt die groesse des Spielfelds
+     * @return Gibt ein zweidimensionales array zurueck, in dem die Positionen der platzierten Schiffe gespeichert sind.
+     */
     public Object[][] setaiships(int boardsize) {
 
         int size = boardsize;
@@ -962,7 +971,7 @@ public class AI {
         AI a = new AI();
         Object[][] aigrid;
         int end=0;
-        aigrid = a.setaiships(5);
+        aigrid = a.setaiships(10);
         while (end==0){
 
             if(!aigrid[0][0].equals(-1)){
@@ -970,7 +979,7 @@ public class AI {
             }
             else{
                  a = new AI();
-                aigrid = a.setaiships(5);
+                aigrid = a.setaiships(10);
             }
 
 
