@@ -7,6 +7,10 @@ import javax.swing.*;
 import Network.*;
 
 
+/**
+ * @author Feyza Grms
+ *
+ */
 public class Gui extends Thread {
 	
 	
@@ -19,6 +23,10 @@ public class Gui extends Thread {
 	public static boolean darkm = false;
 	 
 	
+	/**
+	 *  Im Konstruktor wird das JFrame, die JPanel, die Hintergrundfarben, die JButtons und das Logo eingebettet
+	 *  
+	 */
 	public Gui(){
 	
 	//*****************JFRAME******************
@@ -29,13 +37,11 @@ public class Gui extends Thread {
 	 frame.setVisible(true);
 	 frame.setLocationRelativeTo(null);
 	 frame.setResizable(false);
-
  	
 	
-	 //****************JPANEL LOGO********************
+	 //****************JPANEL LOGO**************
 	 JPanel panellogo = new JPanel();
 	 boardtop.add(panellogo);
-
 	 panellogo.setOpaque(false);
 	 
 	 ImageIcon iconlogo = new ImageIcon(Gui.class.getResource("logo.png"));
@@ -48,11 +54,8 @@ public class Gui extends Thread {
 	 boardtop.setOpaque(true);
 	 panellogo.add(logo);
 	 
-
-
-
 	 
-	 //****************JPANEL BUTTONS********************
+	 //**************JPANEL BUTTONS**************
 	 JPanel panel = new JPanel(new GridLayout(5, 2));
 	 panel.setOpaque(false);
 	 panel.setPreferredSize(new Dimension(300, 400));
@@ -89,7 +92,11 @@ public class Gui extends Thread {
 		 panelname.setOpaque(false);
 		 panelname.add(name);
 		
-	 	 
+	 	
+	 /**
+	  * Hier werden die JButton erstellt und die dazu gehoerigen Bilder auf diese eingefuegt
+	  *
+	  */ 
 	//****************VERSUS KI********************
 	 ImageIcon iconversusai = new ImageIcon(Gui.class.getResource("Versus AI.png"));
 	 JButton versusai = new JButton(iconversusai);
@@ -99,7 +106,7 @@ public class Gui extends Thread {
 	 versusai.setOpaque(false);
 	 panel.add(versusai);
 	 
-	 //****************NETWORK GAME********************
+	 //****************NETWORK GAME***************
 	 ImageIcon iconnetwork = new ImageIcon(Gui.class.getResource("network.png"));
 	 JButton network = new JButton(iconnetwork);
 	 network.setIcon(iconnetwork);
@@ -135,8 +142,9 @@ public class Gui extends Thread {
 	 quit.setOpaque(false);
 	 panel.add(quit);
 	
+	 
 	 quit.addActionListener(new ActionListener() {
-		 public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) {
 			 System.exit(0);
 		 }
 	 });
@@ -162,7 +170,6 @@ public class Gui extends Thread {
         		panelnw.setOpaque(false);
         		boardpanel.add(panelnw);
         		 
-        		 
         		 ImageIcon iconjoin = new ImageIcon(Gui.class.getResource("join.png"));
         		 JButton join = new JButton(iconjoin);
         		 join.setIcon(iconjoin);
@@ -170,7 +177,6 @@ public class Gui extends Thread {
         		 join.setBorderPainted(false);
         		 join.setOpaque(false);
         		 panelnw.add(join);
-        		
         		 
         		 join.addActionListener(new ActionListener() {
 	     	            public void actionPerformed(ActionEvent e)
@@ -291,7 +297,7 @@ public class Gui extends Thread {
         		JLabel howtoplay4= new JLabel("firing shots by clicking on grid coordinates.");
         		JLabel howtoplay5= new JLabel("Your goal is to shoot down enemy ships");
         		JLabel howtoplay6= new JLabel("before he shoots down yours.");
-        		//Schriftart ändern*******************
+        		//Schriftart ändern****************
         		Font schriftart = new Font("SansSerif", Font.BOLD, 18);
         		Font schriftart1 = new Font("SansSerif", Font.PLAIN, 15);
         		howtoplay.setFont(schriftart);
@@ -301,7 +307,7 @@ public class Gui extends Thread {
         		howtoplay4.setFont(schriftart1);
         		howtoplay5.setFont(schriftart1);
         		howtoplay6.setFont(schriftart1);
-        		//Farbe ändern************************
+        		//Farbe ändern**********************
         		howtoplay.setForeground(Color.BLACK);
         		howtoplay1.setForeground(Color.BLACK);
         		howtoplay2.setForeground(Color.BLACK);
@@ -309,7 +315,7 @@ public class Gui extends Thread {
         		howtoplay4.setForeground(Color.BLACK);
         		howtoplay5.setForeground(Color.BLACK);
         		howtoplay6.setForeground(Color.BLACK);
-        		//JLabel hinzufügen*********************
+        		//JLabel hinzufügen******************
         		panelhelp.add(howtoplay);
         		panelhelp.add(howtoplay1); 
         		panelhelp.add(howtoplay2);
@@ -340,7 +346,12 @@ public class Gui extends Thread {
 	 
 	 
 	//****************ACTION LISTENER SETTINGS********************
-	 settings.addActionListener(new ActionListener() {
+	 settings.addActionListener(
+	/**
+	 * Hier werden Einstellungsmoeglichkeiten wie Darkmode und Lightmode eingestellt
+	 *
+	 */
+	new ActionListener() {
             public void actionPerformed(ActionEvent e)
             {
             	panel.setVisible(false);
@@ -390,13 +401,10 @@ public class Gui extends Thread {
 	            {
 	  
 	           	 	boardtop.setBackground(Color.BLACK);
-
 	           	 	Color customColor = new Color(139,137,132);
 	            	boardbottom.setBackground(customColor);
 	            	boardpanel.setBackground(customColor);
 	            	darkm = true;
-	           	 
-	            
 	            }
 		 });
         		
@@ -412,28 +420,25 @@ public class Gui extends Thread {
      	            	panel.setVisible(true);
      	            }
         		 });
-        		
-        		
             }
        });
-	 
-	
-		 
-		 
 	 
 	 frame.add(boardpanel);
 	 frame.setPreferredSize(new Dimension(1280,720));
 	 frame.pack();
 }
 
+	/**
+	 * @return Diese Methode sorgt dafuer, dass beim auswaehlen des Darkmodes auch die Klasse Windows in den Darkmode uebergeht
+	 */
 	public static boolean getDark() {
 		if(darkm == true) return true;
 		else return false;
 	}
 	
 	
+	
 	public void warteAufConnection(Host host){
-
 		int sec = 120;
 		System.out.print("warte auf Verbindung");
 		int j = 0;
@@ -456,13 +461,17 @@ public class Gui extends Thread {
 			}
 		}
 }
-
+	
 	public void run() {
 
 	}
 
 	
 	//************************MAIN METHODE*******************
+	/**
+	 * @param args
+	 * Die Main fuehrt die Klasse GUI aus
+	 */
 	public static void main(String[] args) {
 			new Gui();
 
