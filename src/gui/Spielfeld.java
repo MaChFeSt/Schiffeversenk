@@ -7,8 +7,13 @@ import Ai.*;
 import Logik.*;
 
 
-// KLASSE FUER SPIELFELD
 
+/** <h1>Klasse Spielfeld</h1>
+ * 
+ * In dieser Klasse wird für jedes Spielfeld ein zweidimensionaler
+ * Array erstellt mit dessen Hilfe, das Spielfeld graphisch dargestellt wird.
+ *
+ */
 @SuppressWarnings("serial")
 public class Spielfeld extends JPanel{
 	
@@ -32,6 +37,13 @@ public class Spielfeld extends JPanel{
 	Image waterimagegreen;
 	
 	
+	/**<h1>Konstruktor</h1>
+	 * 
+	 * Hier wird ein Standard Array erstellt, bei dem alle Werte auf 0 gesetzt werden.
+	 * Dieses ist ein leeres Spielfeld, auf dem noch keine Schiffe platziert wurden.
+	 * 
+	 * @param Spielfeldgroesse
+	 */
 	public Spielfeld(int size) {
 		this.size=size;
 		JPanel panel = new JPanel(new GridLayout(size,size));
@@ -59,51 +71,6 @@ public class Spielfeld extends JPanel{
 			    add(panel);
 				grid[i][j] = 0;
 				label.setOpaque(true);
-	            
-				
-//		// ********** MOUSE LISTENER F�R GRID ************
-//	            label.addMouseListener(new MouseAdapter() {
-//	                public void mouseClicked(MouseEvent e){
-//	                    //label.setBackground(Color.red);
-//	                }
-//	                @Override
-//	                public void mouseEntered(MouseEvent e) {
-//	                    
-//	                	//label.setBackground(Color.black);
-//	                	int col;
-//	                	int row;
-//			        	int cellwidth = 520/size;
-//			        	col = e.getX() / cellwidth;
-//			        	row = e.getY()  / cellwidth;
-//			        	
-//			        	if (grid[col][row].hashCode() == 0) {	  
-//			        		//label.setBackground(Color.green);
-//			        		label.setIcon(null);
-//			        		label.setIcon(new ImageIcon(waterimagegreen));
-//			        	}
-//			        	if (grid[col][row].hashCode() == 1 || grid[col][row].hashCode() == 2) {	  
-//			        		label.setIcon(null);
-//			        		label.setIcon(new ImageIcon(waterimagered));
-//			        	}
-//	                }
-//
-//	                @Override
-//	                public void mouseExited(MouseEvent e) {
-//	                    label.setIcon(null);
-//	                    label.setIcon(new ImageIcon(waterimage));
-//	                } 
-//	        		@Override
-//	        		public void mousePressed(MouseEvent e) {
-//	        			// TODO Auto-generated method stub
-//	        			
-//	        		}
-//
-//	        		@Override
-//	        		public void mouseReleased(MouseEvent e) {
-//	        			// TODO Auto-generated method stub
-//	        			
-//	        		}
-//	            });
 			}	
 		}
 	}
@@ -111,6 +78,13 @@ public class Spielfeld extends JPanel{
 	
 	
 	// ********** MY GRID ERSTELLEN **********
+	/**<h1>Konstruktor um Spielfeld des Spielers zu bauen</h1>
+	 * 
+	 * Hier wird das eigene Spielfeld mit den Platzierten Schiffen, Leerschuessen und Treffern abgebildet.
+	 * 
+	 * @param mein Spielfeld
+	 * @param Spielfeldgroesse
+	 */
 	public Spielfeld (Object[][] my, int size) {
 		
 		this.size=size;
@@ -211,6 +185,13 @@ public class Spielfeld extends JPanel{
 	
 
 // ********** AI GRID ERSTELLEN **********
+/**<h1>Konstruktor zum generieren des gegnerischen Spielfeldes</h1>
+ * 
+ * Hier wird das gegnerische Spielfeld erstellt, auf dem Treffer und Leerschuesse dargestellt werden.
+ * 
+ * @param Spielfeldgroesse
+ * @param gegnerisches Feld
+ */
 public Spielfeld (int size,Object[][] my){
 		
 		pos[0] = -1;
@@ -294,9 +275,8 @@ public Spielfeld (int size,Object[][] my){
 						pos [0] = col;
 						pos [1] = row;
 						
-						
+
 						SpielLogikAI.schussVonMenschAufAI(row, col);
-					
 						System.out.println("CLICKED ON: " + col + " " + row);
 					}
 					
@@ -342,6 +322,12 @@ public Spielfeld (int size,Object[][] my){
 	}
 
 	// ******** GET POSITION ********
+	/**<h1>Methode getPos</h1>
+	 * 
+	 * Hier wird die angeklickte Position im Spielfeld abgerufen.
+	 * 
+	 * @return geklickte Position im gegnerischen Spielfeld
+	 */
 	static public int [] getPos() {
 		return pos;
 	}
