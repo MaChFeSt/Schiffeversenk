@@ -115,7 +115,7 @@ public class Host extends Thread{
     }
 
     /**
-     * Ein Schuss inklusive der Koordinaten,der in ein JSON-Object
+     * Ein Schuss inklusive der Koordinaten, der in ein JSON-Object
      * gespeichert und anschließend an den Partner geschickt wird.
      * @param x X-Koordinate des Schusses
      * @param y Y-Koordinate des Schusses
@@ -137,6 +137,14 @@ public class Host extends Thread{
         }
     }
 
+    /**
+     * Die Antwort auf den Schuss des gegenuebers, dieser wird in ein JSON-Object gespeichert,
+     * und anschliessend verschickt.
+     * @param hit ob der Gegner getroffen hat
+     * @param destroyed ob der Gegner Schiff zerstört hat
+     * @param x x-Koordinate des hits
+     * @param y y-Koordinate des hits
+     */
     public void messageSchussAntwort(boolean hit, boolean destroyed, int x, int y){
         Header h = new Header("Game", "");
         Body b = new Body(size, new Hit(hit, destroyed, x, y), null);
@@ -148,7 +156,7 @@ public class Host extends Thread{
     }
 
     /**
-     * Es wird eine Nachricht mit der Spielfeldgroeße an den gegenueber gesendet.
+     * Es wird eine Nachricht mit der Spielfeldgroeße an den Gegner gesendet.
      */
     public void messageWithSize(){
         Header h = new Header("Prepare", "");
@@ -160,6 +168,9 @@ public class Host extends Thread{
         writer.flush();
     }
 
+    /**
+     * Gegner hat nicht getroffen, Confirm wird an ihn geschickt.
+     */
     public void messageConfirm(){
         Header h = new Header("Game", "Confirm");
         Body b = new Body(size, null, null);
@@ -184,6 +195,10 @@ public class Host extends Thread{
         System.out.println("Host geschlossen");
     }
 
+    /**
+     * Hier wird auf die antwort vom gegenueber gehoert. Es wird auch unterschieden, was für eine Nachricht vom
+     * Gegner geschickt wurde.
+     */
     public void listen(){
         try{
             String line = reader.readLine();
