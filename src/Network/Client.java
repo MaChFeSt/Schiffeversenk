@@ -68,7 +68,7 @@ public class Client extends Thread {
 
     /**
      * Hier wird auf die antwort vom gegenueber gehoert. Es wird auch unterschieden, was für eine Nachricht vom
-     * gegenueber geschickt wurde.
+     * Gegner geschickt wurde.
      */
     public void listen(){
         try{
@@ -153,7 +153,7 @@ public class Client extends Thread {
     }
 
     /**
-     * 
+     * Gegner hat nicht getroffen, Confirm wird an ihn geschickt.
      */
     public void messageConfirm(){
         Header h = new Header("Game", "Confirm");
@@ -167,13 +167,12 @@ public class Client extends Thread {
 
     /**
      * Die Antwort auf den Schuss des gegenuebers, dieser wird in ein JSON-Object gespeichert,
-     * und anschliessend verschickt
-     * @param hit ??
-     * @param destroyed ??
-     * @param x ??
-     * @param y ??
+     * und anschliessend verschickt.
+     * @param hit ob der Gegner getroffen hat
+     * @param destroyed ob der Gegner Schiff zerstört hat
+     * @param x x-Koordinate des hits
+     * @param y y-Koordinate des hits
      */
-    //Wird als Antwort auf einen Schuss an den Server gesendet
     public void messageSchussAntwort(boolean hit, boolean destroyed, int x, int y){
         Header h = new Header("Game", "");
         Body b = new Body(size, new Hit(hit, destroyed, x, y), null);
