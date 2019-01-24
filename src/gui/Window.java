@@ -277,7 +277,7 @@ public class Window extends JFrame{
 
 			try {
 
-	            Scanner sc = new Scanner(new File("C:/Users/Feyza Grms/size.txt"));
+	            Scanner sc = new Scanner(new File(System.getProperty("user.dir") + File.separator+ "size.txt"));
 	            int rows = 1;
 	            int columns = 1;
 	            int[][] fieldsize = new int[rows][columns];
@@ -299,7 +299,7 @@ public class Window extends JFrame{
 			aigrid = new Object [size][size];
 		        try {
 
-		            Scanner sc = new Scanner(new File("C:/Users/Feyza Grms/myGrid.txt"));
+		            Scanner sc = new Scanner(new File(System.getProperty("user.dir") + File.separator+ "myGrid.txt"));
 		            int rows = size;
 		            int columns = size;
 		            Object[][] myfield = new Object[rows][columns];
@@ -327,7 +327,7 @@ public class Window extends JFrame{
 
 		        try {
 
-		            Scanner sc = new Scanner(new File("C:/Users/Feyza Grms/aigrid.txt"));
+		            Scanner sc = new Scanner(new File(System.getProperty("user.dir") + File.separator+ "aigrid.txt"));
 		            int rows = size;
 		            int columns = size;
 		            Object[][] aifield = new Object[rows][columns];
@@ -635,10 +635,12 @@ public class Window extends JFrame{
 			
 			savi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					//--------------------------------------------myGrid------------------------------------------------
 					Object[][] myGrid = getmyGrid();
 			        try (
-			                PrintStream output = new PrintStream(new File("C:/Users/Feyza Grms/myGrid.txt"));) {
+			        		//myGrid.txt
+			                PrintStream output = new PrintStream(new File(System.getProperty("user.dir") + File.separator+ "myGrid.txt"));) {
 			            for (int i = 0; i < myGrid.length;i++) {
 			                String s= "";
 			                for (int j = 0; j < myGrid[i].length; j++) {
@@ -650,10 +652,11 @@ public class Window extends JFrame{
 			        } catch (FileNotFoundException z) {
 			            z.printStackTrace();
 			        }
-			        //-------------------------------------------aigrid---------------------------------------------------
+			        
+			        //-------------------------------------------aigrid.txt---------------------------------------------------
 			        Object[][] aiGrid = getaigrid();
 			        try (
-			                PrintStream output = new PrintStream(new File("C:/Users/Feyza Grms/aigrid.txt"));) {
+			                PrintStream output = new PrintStream(new File(System.getProperty("user.dir") + File.separator+ "aigrid.txt"));) {
 			            for (int i = 0; i < aiGrid.length;i++) {
 			                String s= "";
 			                for (int j = 0; j < aiGrid[i].length; j++) {
@@ -665,11 +668,11 @@ public class Window extends JFrame{
 			        } catch (FileNotFoundException z) {
 			            z.printStackTrace();
 			        }
-			        //--------------------------------------------size-----------------------------------------------
+			        //--------------------------------------------size.txt-----------------------------------------------
 
 
 			        try (
-			                PrintStream output = new PrintStream(new File("C:/Users/Feyza Grms/size.txt"));) {
+			                PrintStream output = new PrintStream(new File(System.getProperty("user.dir") + File.separator+ "size.txt"));) {
 			        	int s=size;
 			        	output.println(s);
 			            output.close();
