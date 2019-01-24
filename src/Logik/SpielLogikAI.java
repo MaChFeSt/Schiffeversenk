@@ -27,6 +27,24 @@ public class SpielLogikAI {
      * @param x X-Koordinate vom Schuss
      * @param y Y-Koordinate vom Schuss
      */
+    
+    public static void sendeSchuss(int x, int y) {
+    	int mode = Gui.getMode();
+    	if(mode == 1) {
+        	Gui.host1.schickeSchuss(x, y);
+        	System.out.println("Host schickt Schuss!");
+        	Gui.host1.listen();
+        }
+        
+        if(mode == 2) {
+        	Gui.client1.schickeSchuss(x, y);
+        	System.out.println("Client schickt Schuss!");
+        	Gui.client1.listen();
+        }
+    	
+    }
+    
+    
     public static void schussVonMenschAufAI(int x, int y){
         //Teste ob der Schuss irgendein Schiff getroffen hat
         if (aigrid[x][y].equals(2) || aigrid[x][y].equals(3) || aigrid[x][y].equals(4) ||
@@ -37,17 +55,20 @@ public class SpielLogikAI {
             Window.lp.validate();
             System.out.println("getroffen.");
             //CHECK IF WON
-            if(aiSpielfeldDurchlaufen()) {
-                System.out.println("YOU WIN");
-                Window.won.setVisible(true);
-                Window.menu.setVisible(true);
-                Window.quit.setVisible(true);
-            }
-            if(spielerSpielfeldDurchlaufen()) {
-                System.out.println("YOU LOST");
-                Window.lost.setVisible(true);
-                Window.menu.setVisible(true);
-                Window.quit.setVisible(true);
+            int mode =Gui.getMode();
+            if (mode == 0) {
+		        if(aiSpielfeldDurchlaufen()) {
+		            System.out.println("YOU WIN");
+		            Window.won.setVisible(true);
+		            Window.menu.setVisible(true);
+		            Window.quit.setVisible(true);
+		        }
+		        if(spielerSpielfeldDurchlaufen()) {
+		            System.out.println("YOU LOST");
+		            Window.lost.setVisible(true);
+		            Window.menu.setVisible(true);
+		            Window.quit.setVisible(true);
+		        }
             }
             Window.myTurn();
         }else{
