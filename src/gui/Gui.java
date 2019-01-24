@@ -193,6 +193,21 @@ public class Gui extends Thread {
 					});
          	
        	
+     		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
+			JButton menu = new JButton(iconmenu);
+			menu.setIcon(iconmenu);
+			menu.setContentAreaFilled(false);
+			menu.setBorderPainted(false);
+			menu.setOpaque(false);
+			panelversusai.add(menu);
+
+			menu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e)
+				{
+					panelversusai.setVisible(false);
+					panel.setVisible(true);
+				}
+			});
 	 
          }
      });
