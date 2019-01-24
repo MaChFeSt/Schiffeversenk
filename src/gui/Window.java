@@ -5,6 +5,7 @@ import java.awt.event.*;
 import javax.swing.*;
 import Ai.*;
 import Logik.*;
+import Network.*;
 
 
 //********** 2er SCHIFF : 		Waka
@@ -28,7 +29,7 @@ public class Window extends JFrame{
 	public static int l = 3;
 	public Font font2 = new Font("SansSerif", Font.BOLD, 30);
 	static public int size;
-	
+	int mode;
 	public JTextField gridsize;
 	public JLabel setSizeText;
 	public static JLayeredPane lp;
@@ -44,8 +45,8 @@ public class Window extends JFrame{
 	public static Spielfeld myFeld, aiFeld;
 	public static Object[][] myGrid;
 	public static Object[][] aigrid;
-	public static boolean myTurn = false, aiTurn = false, clicked=false;
-	
+	public static boolean myTurn = false, aiTurn = false, clicked=false, setclicked=false;
+
 	
 	/** <h1>Konstruktor</h1>
 	 * 	Hier werden alle JComponents auf den Panel gebaut.
@@ -172,19 +173,28 @@ public class Window extends JFrame{
 				public void mouseClicked(MouseEvent e){
 			
 					if (size >= 5 && size <=30) {
-							confirm.setVisible(false);
-							setSizeText.setVisible(false);
-							gridsize.setVisible(false);
-							myGrid = new Object [size][size];
-							aigrid = new Object [size][size];
-							lp.validate();
-							goPlaceShipsScreen();
+						mode=Gui.getMode();
+						//////// HOST GAME BOARD SIZE SENDEN
+						if (mode == 1) {
+							
+						}
+						confirm.setVisible(false);
+						setSizeText.setVisible(false);
+						gridsize.setVisible(false);
+						myGrid = new Object [size][size];
+						aigrid = new Object [size][size];
+						lp.validate();
+						//In den Platzierbildschirm wechseln
+						goPlaceShipsScreen();
+							
+							
 									
 					}
 					else {
 							JOptionPane.showMessageDialog(null,
 										    "Nope.");
 					}
+
 				}
 			});
 		
@@ -226,16 +236,37 @@ public class Window extends JFrame{
 			}
 		});
 		
-		
 		setVisible(true);
 		
+		mode = Gui.getMode();	
 		
+		if (mode == 1) {   ///HOST SPIEL
+			
+			// wir müssen die Boardsize senden
+			// METHODE, DIE IN AI GRID 20 oder 21 reinschreibt!
+			// überprüfen ob gewonnen 
+		}
+		
+		if (mode == 2) {   ///JOIN SPIEL
+			
+			/// WIR MÜSSEN DIE BOARDSIZE BEKOMMEN
+
+			
+			setSizeText.setVisible(false);
+			gridsize.setVisible(false);
+			myGrid = new Object [size][size];
+			aigrid = new Object [size][size];
+			lp.validate();
+			goPlaceShipsScreen();
+		}
+		
+		lp.validate();
 	}
 	
 	/** <h1>Methode goPlaceShipsScreen</h1>
 	 * 	
 	 * hier wechselt man in den Bildschirm, bei dem man die Schiffe platzieren kann.
-	 * Mit einem Click auf den Place Button werden die Schiffe zufällig platziert.
+	 * Mit einem Click auf den Place Button werden die Schiffe zufÃ¤llig platziert.
 	 * Diesen Vorgang kann man beliebig oft wiederholen.
 	 * Bei erfolgreichem Platzieren erscheint der Start-Button, mit dem man das Spiel startet. 
 	 */
@@ -335,21 +366,25 @@ public class Window extends JFrame{
 //					            System.out.println();
 //					            System.out.println();
 //					        }
-	
-							AI a = new AI();
-					        int end=0;
-					        aigrid = a.setaiships(size);
-					        while (end==0){
-	
-					            if(!aigrid[0][0].equals(-1)){
+							
+							mode=Gui.getMode();
+							if (mode == 1 || mode == 2) {  // wenn host oder joined, dann ist aiGrid leer
+								aigrid = new Object[size][size];
+							}
+							else { // wenn versusAI, dann wird der array mit Schiffen gefüllt.
+								AI a = new AI();
+								int end=0;
+								aigrid = a.setaiships(size);
+								while (end==0){
+									if(!aigrid[0][0].equals(-1)){
 					                end=1;
-					            }
-					            else{
+									}
+									else{
 					                a = new AI();
 					                aigrid = a.setaiships(size);
-					            }
-					        } 
-	
+									}
+								} 
+							}
 					        
 					        aiFeld = new Spielfeld (size, aigrid);
 							lp.add(aiFeld, (21),l);
@@ -437,6 +472,79 @@ public class Window extends JFrame{
 		myTurn = true;
 		aiT.setVisible(false);
 		myT.setVisible(true);
+
+		if(myTurn=true) {
+			ImageIcon iconmenu = new ImageIcon(Window.class.getResource("settingsingame.png"));
+			Image immenu= iconmenu.getImage().getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+			JButton igmenu = new JButton(new ImageIcon(immenu));
+			igmenu.setIcon(iconmenu);
+			igmenu.setContentAreaFilled(false);
+			igmenu.setBorderPainted(false);
+			igmenu.setOpaque(false);
+			igmenu.setBounds(50, 40, 50, 50);
+			lp.add(igmenu,(102),102);
+			
+			setclicked=false;
+			ImageIcon backg = new ImageIcon(Window.class.getResource("settingsback.png"));
+			JLabel setback = new JLabel();
+			setback.setIcon(backg);
+			setback.setBounds(20, 18, 256, 400);
+			lp.add(setback,(101), 101);
+			setback.setVisible(false);
+			
+			ImageIcon iconquit = new ImageIcon(Gui.class.getResource("quit.png"));
+			JButton quiti = new JButton(iconquit);
+			quiti.setIcon(iconquit);
+			quiti.setContentAreaFilled(false);
+			quiti.setBorderPainted(false);
+			quiti.setOpaque(false);
+			quiti.setBounds(50, 300, 200, 71);
+			lp.add(quiti,(102),102);
+			quiti.setVisible(false);
+			
+			quiti.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					System.exit(0);	
+				}
+			 });
+			
+			ImageIcon iconsave = new ImageIcon(Window.class.getResource("save.png"));
+			JButton savi = new JButton(iconsave);
+			savi.setIcon(iconsave);
+			savi.setContentAreaFilled(false);
+			savi.setBorderPainted(false);
+			savi.setOpaque(false);
+			savi.setBounds(50, 120, 200, 71);
+			lp.add(savi,(102),102);
+			savi.setVisible(false);
+			
+			savi.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+	
+				}
+			 });
+			
+			igmenu.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					
+					if(setclicked==false) {
+						setback.setVisible(true);
+						quiti.setVisible(true);
+						savi.setVisible(true);
+						lp.revalidate();
+						setclicked=true;
+					}
+					else if(setclicked==true) { 
+						quiti.setVisible(false);
+						setback.setVisible(false);
+						savi.setVisible(false);
+						setclicked=false;
+						lp.revalidate();
+					}
+				}
+			 });
+		}
 		lp.validate();
 		}
 	
@@ -507,8 +615,8 @@ public class Window extends JFrame{
 		lp.remove(myFeld);
 		lp.remove(aiFeld);
 		lp.validate();
-		myGrid = my;
-		aigrid= ai;
+//		myGrid = my;
+//		aigrid= ai;
 		// test
 		System.out.println("********** AI FELD **********************");
 		for (int i = 0; i < aigrid.length; i++) {
@@ -517,16 +625,17 @@ public class Window extends JFrame{
             System.out.println();
             System.out.println();
 		}
-		myFeld = new Spielfeld (myGrid, size);
+		myFeld = new Spielfeld (my, size);
 		myFeld.setBounds(50, 100, 520, 520);
 		lp.add(myFeld, (l+1),l+1);
-		aiFeld = new Spielfeld (size, aigrid);
+		aiFeld = new Spielfeld (size, ai);
 
 		aiFeld.setBounds(710,100, 520, 520);
 		lp.add(aiFeld, (l+1),l+1);
 		
 		lp.repaint();
 		lp.validate();
+		
 	}
 }
 
