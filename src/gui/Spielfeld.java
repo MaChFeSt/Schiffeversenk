@@ -10,7 +10,7 @@ import Logik.*;
 
 /** <h1>Klasse Spielfeld</h1>
  * 
- * In dieser Klasse wird für jedes Spielfeld ein zweidimensionaler
+ * In dieser Klasse wird fÃ¼r jedes Spielfeld ein zweidimensionaler
  * Array erstellt mit dessen Hilfe, das Spielfeld graphisch dargestellt wird.
  *
  */
@@ -31,7 +31,7 @@ public class Spielfeld extends JPanel{
 	Image roseim;
 	Image dragonim;
 	
-	//*** BILD RESIZABLE ICON F�R GRID ***
+	//*** BILD RESIZABLE ICON Fï¿½R GRID ***
 	Image waterimage, aimi, leeri, hiti;
 	Image waterimagered;
 	Image waterimagegreen;
@@ -52,7 +52,7 @@ public class Spielfeld extends JPanel{
 		panel.setOpaque(false);
 		
 
-		//*** BILD RESIZABLE ICON F�R GRID ***
+		//*** BILD RESIZABLE ICON Fï¿½R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 		ImageIcon waterred = new ImageIcon(Spielfeld.class.getResource("wasserrot.png"));
@@ -107,7 +107,7 @@ public class Spielfeld extends JPanel{
 		ImageIcon dragon = new ImageIcon(Spielfeld.class.getResource("dragon.png"));
 		 dragonim = dragon.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 		
-		//*** BILD RESIZABLE ICON F�R GRID ***
+		//*** BILD RESIZABLE ICON Fï¿½R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 		 ImageIcon leeric  = new ImageIcon(Spielfeld.class.getResource("empty.png"));
@@ -221,7 +221,7 @@ public Spielfeld (int size,Object[][] my){
 		
 
 
-		//*** BILD RESIZABLE ICON F�R GRID ***
+		//*** BILD RESIZABLE ICON Fï¿½R GRID ***
 		ImageIcon water = new ImageIcon(Spielfeld.class.getResource("wasser.png"));
 		 waterimage = water.getImage().getScaledInstance(520/size, 520/size, Image.SCALE_SMOOTH);
 		ImageIcon aimic  = new ImageIcon(Spielfeld.class.getResource("aim.png"));
@@ -260,7 +260,7 @@ public Spielfeld (int size,Object[][] my){
 				}
 			}
 			
-			// ********** MOUSE LISTENER F�R GRID ************
+			// ********** MOUSE LISTENER Fï¿½R GRID ************
 			panel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e){
 					
@@ -275,9 +275,16 @@ public Spielfeld (int size,Object[][] my){
 						pos [0] = col;
 						pos [1] = row;
 						
+						int mode = Gui.getMode();
+						
+						if(mode == 1 || mode == 2) {
+							SpielLogikAI.sendeSchuss(col, row);
+						}else {
+							SpielLogikAI.schussVonMenschAufAI(row, col);
 
-						SpielLogikAI.schussVonMenschAufAI(row, col);
-						System.out.println("CLICKED ON: " + col + " " + row);
+						}
+											
+						//System.out.println("CLICKED ON: " + col + " " + row);
 					}
 					
 				}
