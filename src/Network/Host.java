@@ -2,6 +2,8 @@ package Network;
 
 import JSON.JSONHandler;
 import JSON.Objects.*;
+import gui.Spielfeld;
+import gui.Window;
 
 import java.io.*;
 import java.net.InetAddress;
@@ -115,7 +117,7 @@ public class Host extends Thread{
     }
 
     /**
-     * Ein Schuss inklusive der Koordinaten, der in ein JSON-Object
+     * Ein Schuss inklusive der Koordinaten,der in ein JSON-Object
      * gespeichert und anschließend an den Partner geschickt wird.
      * @param x X-Koordinate des Schusses
      * @param y Y-Koordinate des Schusses
@@ -137,14 +139,6 @@ public class Host extends Thread{
         }
     }
 
-    /**
-     * Die Antwort auf den Schuss des gegenuebers, dieser wird in ein JSON-Object gespeichert,
-     * und anschliessend verschickt.
-     * @param hit ob der Gegner getroffen hat
-     * @param destroyed ob der Gegner Schiff zerstört hat
-     * @param x x-Koordinate des hits
-     * @param y y-Koordinate des hits
-     */
     public void messageSchussAntwort(boolean hit, boolean destroyed, int x, int y){
         Header h = new Header("Game", "");
         Body b = new Body(size, new Hit(hit, destroyed, x, y), null);
@@ -156,21 +150,20 @@ public class Host extends Thread{
     }
 
     /**
-     * Es wird eine Nachricht mit der Spielfeldgroeße an den Gegner gesendet.
+     * Es wird eine Nachricht mit der Spielfeldgroeße an den gegenueber gesendet.
      */
     public void messageWithSize(){
         Header h = new Header("Prepare", "");
+        
         Body b = new Body(size, null, null);
         Wrapper wrp = new Wrapper(new Game(h, b));
 
         String message = JSONHandler.serializeWrapper(wrp);
         writer.write(message);
         writer.flush();
+        System.out.println("size geschickt." + size);
     }
 
-    /**
-     * Gegner hat nicht getroffen, Confirm wird an ihn geschickt.
-     */
     public void messageConfirm(){
         Header h = new Header("Game", "Confirm");
         Body b = new Body(size, null, null);
@@ -195,40 +188,44 @@ public class Host extends Thread{
         System.out.println("Host geschlossen");
     }
 
-    /**
-     * Hier wird auf die antwort vom gegenueber gehoert. Es wird auch unterschieden, was für eine Nachricht vom
-     * Gegner geschickt wurde.
-     */
     public void listen(){
         try{
-            String line = reader.readLine();
-            //System.out.println(line);
-            Wrapper wrp = JSONHandler.getWrapper(line);
-
-            //CLIENT RDY
-            if(wrp.game.getHeader().getStatus().equals("Game_Start")){
-                System.out.println("Client rdy, Spiel kann losgehen");
-            }
-            //SCHUSS VOM GEGNER ERHALTEN
-            if(wrp.game.getHeader().getStatus().equals("Game") &&
-                    wrp.game.getBody().getShot() != null){
-                int x = wrp.game.getBody().getShot().getX();
-                int y = wrp.game.getBody().getShot().getY();
-                System.out.println("Schuss auf: " + x + ", " + y);
-            }
-            //ANTWORT AUF MEINEN SCHUSS => gucken ob Hit true oder Schiff destroyed
-            if(wrp.game.getHeader().getStatus().equals("Game") &&
-                    wrp.game.getHeader().getSystemmessage().equals("") &&
-                    wrp.game.getBody().getShot() == null){
-                boolean hit = wrp.game.getBody().getHit().isHit();
-                boolean destroyed = wrp.game.getBody().getHit().isDestroyed();
-                System.out.println("Schiff getroffen: " + hit);
-                System.out.println("Schiff zerstört: " + destroyed);
-            }
-            //Höre auf Confirm message
-            if(wrp.game.getHeader().getSystemmessage().equals("Confirm")){
-                System.out.println("Hat die antwort bekommen wir sind dran.");
-            }
+        	boolean sent = true;
+        	while(sent) {
+	            String line = reader.readLine();
+	            //System.out.println(line);
+	            Wrapper wrp = JSONHandler.getWrapper(line);
+	
+	            //CLIENT RDY
+	            if(wrp.game.getHeader().getStatus().equals("Game_Start")){
+	                System.out.println("Client rdy, Spiel kann losgehen");
+	                Window.hostStart();
+	                sent = false;
+	            }
+	            //SCHUSS VOM GEGNER ERHALTEN
+	            if(wrp.game.getHeader().getStatus().equals("Game") &&
+	                    wrp.game.getBody().getShot() != null){
+	                int x = wrp.game.getBody().getShot().getX();
+	                int y = wrp.game.getBody().getShot().getY();
+	                System.out.println("Schuss auf: " + x + ", " + y);
+	                sent = false;
+	            }
+	            //ANTWORT AUF MEINEN SCHUSS => gucken ob Hit true oder Schiff destroyed
+	            if(wrp.game.getHeader().getStatus().equals("Game") &&
+	                    wrp.game.getHeader().getSystemmessage().equals("") &&
+	                    wrp.game.getBody().getShot() == null){
+	                boolean hit = wrp.game.getBody().getHit().isHit();
+	                boolean destroyed = wrp.game.getBody().getHit().isDestroyed();
+	                System.out.println("Schiff getroffen: " + hit);
+	                System.out.println("Schiff zerstört: " + destroyed);
+	                sent = false;
+	            }
+	            //Höre auf Confirm message
+	            if(wrp.game.getHeader().getSystemmessage().equals("Confirm")){
+	                System.out.println("Hat die antwort bekommen wir sind dran.");
+	                sent = false;
+	            }
+        	}
         }catch(Exception e){
             e.printStackTrace();
         }
