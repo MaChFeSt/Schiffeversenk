@@ -151,15 +151,45 @@ public class Gui extends Thread {
 	 
 	//****************ACTION LISTENER VERSUS KI********************
 	 versusai.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e)
-            {
-            	panel.setVisible(false);
-            	new Window();
-            	frame.setVisible(false);
-            	
+         public void actionPerformed(ActionEvent e)
+         {
+         	panel.setVisible(false);
+         	JPanel panelversusai = new JPanel();
+         	panelversusai.setOpaque(false);
+         	boardpanel.add(panelversusai);
+         	
+         	ImageIcon iconnewgame = new ImageIcon(Gui.class.getResource("newgame.png"));
+         	JButton newgame = new JButton(iconnewgame);
+         	newgame.setIcon(iconnewgame);
+         	newgame.setContentAreaFilled(false);
+         	newgame.setBorderPainted(false);
+     		newgame.setOpaque(false);
+     		panelversusai.add(newgame);
+     		
+     		
+     		 newgame.addActionListener(new ActionListener() {
+	     	            public void actionPerformed(ActionEvent e)
+	     	            {
+	     	            	panel.setVisible(false);
+	     	            	new Window();
+	     	            	frame.setVisible(false);
+								}
+							});
+     		
+         	
+     		ImageIcon iconload = new ImageIcon(Gui.class.getResource("load.png"));
+         	JButton load = new JButton(iconload);
+         	load.setIcon(iconload);
+         	load.setContentAreaFilled(false);
+         	load.setBorderPainted(false);
+     		load.setOpaque(false);
+     		panelversusai.add(load);
+         	
+       	
 	 
-            }
-        });
+         }
+     });
+
 	 
 	//****************ACTION LISTENER NETWORK********************
 	 network.addActionListener(new ActionListener() {
