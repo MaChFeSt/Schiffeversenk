@@ -3,16 +3,12 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import java.io.*;
+import java.util.*;
 import Ai.*;
 import Logik.*;
 import Network.*;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.PrintStream;
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Scanner;
+import gui.Window;
 
 
 //********** 2er SCHIFF : 		Waka
@@ -145,7 +141,13 @@ public class Window extends JFrame{
 				public void actionPerformed(ActionEvent e)
 				{
 					dispose();
-					new Gui();
+					SwingUtilities.invokeLater(new Runnable() {
+						@Override
+						public void run() {
+							new Gui();
+						}
+					});
+					
 					
 	            	lp.setVisible(false);
 				}
@@ -183,7 +185,9 @@ public class Window extends JFrame{
 						mode=Gui.getMode();
 						//////// HOST GAME BOARD SIZE SENDEN
 						if (mode == 1) {
-							
+							Gui.host1.setSize(size);
+							Gui.host1.messageWithSize();
+					
 						}
 						confirm.setVisible(false);
 						setSizeText.setVisible(false);
@@ -258,7 +262,7 @@ public class Window extends JFrame{
 			
 			/// WIR MÜSSEN DIE BOARDSIZE BEKOMMEN
 
-			
+			size = Client.size;
 			setSizeText.setVisible(false);
 			gridsize.setVisible(false);
 			myGrid = new Object [size][size];
@@ -270,7 +274,7 @@ public class Window extends JFrame{
 			setSizeText.setVisible(false);
 			gridsize.setVisible(false);
 			lp.validate();
-			
+
 			try {
 
 	            Scanner sc = new Scanner(new File("C:/Users/Feyza Grms/size.txt"));
@@ -286,7 +290,7 @@ public class Window extends JFrame{
 	                    }
 	                }
 	            }
-	            
+
 	        }catch (IOException i){
 
 	        }
@@ -320,7 +324,7 @@ public class Window extends JFrame{
 		        }catch (IOException i){
 
 		        }
-		        
+
 		        try {
 
 		            Scanner sc = new Scanner(new File("C:/Users/Feyza Grms/aigrid.txt"));
@@ -352,19 +356,16 @@ public class Window extends JFrame{
 		        lp.repaint();
 		        lp.revalidate();
 		        updateGrid(myGrid, aigrid);
-		        
+
 		        myTurn=true;
 		        myTurn();
-		        
-		        
+
 		    }
 
-
-			
-		}
+		 
 		
-		
-	
+		lp.validate();
+	}
 	
 	/** <h1>Methode goPlaceShipsScreen</h1>
 	 * 	
@@ -379,6 +380,12 @@ public class Window extends JFrame{
 		placeShipsText.setIcon(placeShip);
 		placeShipsText.setBounds(355, 0, 550, 100);
 		
+		if(mode==2) {
+			feld = new Spielfeld(size);
+			feld.setBounds(50, 100, 520, 520);
+			lp.add(feld, (20),20);
+			lp.validate();
+		}
 		
 		place = new JButton();
 		ImageIcon placeI = new ImageIcon(Window.class.getResource("place.png"));
@@ -396,6 +403,7 @@ public class Window extends JFrame{
 		place.addMouseListener(new MouseAdapter() {
 		
 			public void mouseClicked(MouseEvent e){
+				
 				
 				lp.remove(feld);
 				lp.validate();
@@ -416,16 +424,6 @@ public class Window extends JFrame{
 		            }
 		        } 
 		        
-		        
-				// test
-		        System.out.println("********** MY FELD **********************");
-				for (int i = 0; i < myGrid.length; i++) {
-		            for (int j = 0; j < myGrid[i].length; j++)
-		                System.out.print(myGrid[i][j].toString() + ", ");
-		            System.out.println();
-		            System.out.println();
-		        }
-				
 				
 				Spielfeld newFeld = new Spielfeld (myGrid, size);
 				lp.add(newFeld, (l++),l++);
@@ -459,20 +457,42 @@ public class Window extends JFrame{
 							lp.validate();
 							myFeld = new Spielfeld (myGrid, size);
 							myFeld.setBounds(50, 100, 520, 520);
-							lp.add(myFeld, (20),l++);
+							lp.add(myFeld, (l++),l++);
 							
-//							// test
-//					        System.out.println("********** MY FELD **********************");
-//							for (int i = 0; i < myGrid.length; i++) {
-//					            for (int j = 0; j < myGrid[i].length; j++)
-//					                System.out.print(myGrid[i][j].toString() + ", ");
-//					            System.out.println();
-//					            System.out.println();
-//					        }
-							
-							
+
 							if (mode == 1 || mode == 2) {  // wenn host oder joined, dann ist aiGrid leer
 								aigrid = new Object[size][size];
+								
+								for (int i = 0; i < aigrid.length; i++) {
+						            for (int j = 0; j < aigrid[i].length; j++)
+						                aigrid[i][j]=0;
+								}
+								
+								if (mode==2) {
+									Gui.client1.messageGameReady();
+									
+									aiFeld = new Spielfeld (size, aigrid);
+									lp.add(aiFeld, (l+1),l+1);
+									aiFeld.setBounds(710,100, 520, 520);
+								
+									start.setVisible(false);
+									
+									aiTurn();
+									
+									lp.repaint();
+									lp.validate();
+									
+									SwingUtilities.invokeLater(new Runnable(){
+										public void run(){
+											Gui.client1.listen();
+										}
+									});
+								}
+								if (mode==1) {
+									Gui.host1.listen();
+									start.setVisible(false);
+									
+								}
 							}
 							else { // wenn versusAI, dann wird der array mit Schiffen gefüllt.
 								AI a = new AI();
@@ -487,7 +507,6 @@ public class Window extends JFrame{
 					                aigrid = a.setaiships(size);
 									}
 								} 
-							}
 					        
 					        aiFeld = new Spielfeld (size, aigrid);
 							lp.add(aiFeld, (21),l);
@@ -499,24 +518,6 @@ public class Window extends JFrame{
 							
 							lp.repaint();
 							lp.validate();
-							
-							
-							// ********* SPIELLOGIK STARTEN ***********
-//							SwingUtilities.invokeLater(new Runnable(){
-//								public void run() {
-//										SpielLogikAI logik = new SpielLogikAI();
-//										logik.spielStart();
-//								}
-//							});
-//							
-							
-							// test
-							System.out.println("********** AI FELD **********************");
-							for (int i = 0; i < aigrid.length; i++) {
-					            for (int j = 0; j < aigrid[i].length; j++)
-					                System.out.print(aigrid[i][j].toString() + ", ");
-					            System.out.println();
-					            System.out.println();
 							}
 							
 						}
@@ -535,6 +536,17 @@ public class Window extends JFrame{
 		lp.validate();
 	}
 	
+	public static void hostStart() {
+		aiFeld = new Spielfeld (size, aigrid);
+		lp.add(aiFeld, (21),l);
+		aiFeld.setBounds(710,100, 520, 520);
+
+		
+		myTurn();
+		
+		lp.repaint();
+		lp.validate();
+	}
 	
 	/**<h1>Methode getmyGrid</h1>
 	 * 
@@ -654,8 +666,8 @@ public class Window extends JFrame{
 			            z.printStackTrace();
 			        }
 			        //--------------------------------------------size-----------------------------------------------
-			        
-			        		
+
+
 			        try (
 			                PrintStream output = new PrintStream(new File("C:/Users/Feyza Grms/size.txt"));) {
 			        	int s=size;
@@ -664,12 +676,13 @@ public class Window extends JFrame{
 			        } catch (FileNotFoundException z) {
 			            z.printStackTrace();
 			        }
-			        
+
 			        quiti.setVisible(false);
 					setback.setVisible(false);
 					savi.setVisible(false);
 					setclicked=false;
 					lp.revalidate();
+	
 				}
 			 });
 			
@@ -712,29 +725,43 @@ public class Window extends JFrame{
 		myT.setVisible(false);
 		aiT.setVisible(true);
 		
-		if(aishot.aischiesst(size, myGrid)) {
-			updateGrid(myGrid, aigrid);	
-			lp.validate();
-			//CHECK IF WON
-			if(SpielLogikAI.aiSpielfeldDurchlaufen()) {
-				System.out.println("YOU WIN");
-				won.setVisible(true);
-				menu.setVisible(true);
-				quit.setVisible(true);
-			}
-			if(SpielLogikAI.spielerSpielfeldDurchlaufen()) {
-				System.out.println("YOU LOST");
-				lost.setVisible(true);
-				menu.setVisible(true);
-				quit.setVisible(true);
-			}
+		mode=Gui.getMode();
+		
+		
+		if(mode == 1) {
+//			Gui.host1.listen();
+		}
+		if(mode==2 ) {
+			//WArten auf treffer
+//			Gui.client1.listen();
+		}
+		if(mode==0) {
+			if(aishot.aischiesst(size, myGrid)) {
+				updateGrid(myGrid, aigrid);	
+				lp.validate();
+				//CHECK IF WON
+			
+				if(SpielLogikAI.aiSpielfeldDurchlaufen()) {
+					System.out.println("YOU WIN");
+					won.setVisible(true);
+					menu.setVisible(true);
+					quit.setVisible(true);
+				}
+				if(SpielLogikAI.spielerSpielfeldDurchlaufen()) {
+					System.out.println("YOU LOST");
+					lost.setVisible(true);
+					menu.setVisible(true);
+					quit.setVisible(true);
+				}
+			
 			aiTurn();
-		}
-		else {
-			updateGrid(myGrid, aigrid);
-			lp.validate();
-			myTurn();
-		}
+			}
+			else {
+				updateGrid(myGrid, aigrid);
+				lp.validate();
+				myTurn();
+			}
+		}	
 		lp.validate();
 		}
 	
@@ -771,23 +798,15 @@ public class Window extends JFrame{
 		}
 		myGrid = my;
 		aigrid= ai;
-		// test
-		System.out.println("********** AI FELD **********************");
-		for (int i = 0; i < aigrid.length; i++) {
-            for (int j = 0; j < aigrid[i].length; j++)
-                System.out.print(aigrid[i][j].toString() + ", ");
-            System.out.println();
-            System.out.println();
-		}
 
 		myFeld = new Spielfeld (myGrid, size);
 		myFeld.setBounds(50, 100, 520, 520);
-		lp.add(myFeld, (l+1),l+1);
-		aiFeld = new Spielfeld (size, aigrid);
-
-		aiFeld.setBounds(710,100, 520, 520);
-		lp.add(aiFeld, (l+1),l+1);
+		lp.add(myFeld, (l+5),l+5);
 		
+		aiFeld = new Spielfeld (size, aigrid);
+		aiFeld.setBounds(710,100, 520, 520);
+		lp.add(aiFeld, (l+6),l+6);
+		l++;
 		lp.repaint();
 		lp.validate();
 		
