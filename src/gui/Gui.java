@@ -189,7 +189,10 @@ public class Gui extends Thread {
  	            public void actionPerformed(ActionEvent e)
  	            {
  	            	// Hier muss das Spiel in das Spielfeld geladen werden
-						}
+ 	            	mode=3;
+ 	            	new Window();
+ 	            	frame.setVisible(false);
+ 	            }
 					});
          	
        	
