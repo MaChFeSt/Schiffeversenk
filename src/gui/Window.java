@@ -6,6 +6,13 @@ import javax.swing.*;
 import Ai.*;
 import Logik.*;
 import Network.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintStream;
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
 
 
 //********** 2er SCHIFF : 		Waka
@@ -29,7 +36,7 @@ public class Window extends JFrame{
 	public static int l = 3;
 	public Font font2 = new Font("SansSerif", Font.BOLD, 30);
 	static public int size;
-	int mode;
+	static int mode;
 	public JTextField gridsize;
 	public JLabel setSizeText;
 	public static JLayeredPane lp;
@@ -259,9 +266,105 @@ public class Window extends JFrame{
 			lp.validate();
 			goPlaceShipsScreen();
 		}
+		if (mode ==3) {
+			setSizeText.setVisible(false);
+			gridsize.setVisible(false);
+			lp.validate();
+			
+			try {
+
+	            Scanner sc = new Scanner(new File("C:/Users/Feyza Grms/size.txt"));
+	            int rows = 1;
+	            int columns = 1;
+	            int[][] fieldsize = new int[rows][columns];
+	            while (sc.hasNextLine()) {
+	                for (int i = 0; i < fieldsize.length; i++) {
+	                    String[] line = sc.nextLine().trim().split(" ");
+	                    for (int j = 0; j < line.length; j++) {
+	                        fieldsize[i][j] = Integer.parseInt(line[j]);
+	                    size=fieldsize[0][0];
+	                    }
+	                }
+	            }
+	            
+	        }catch (IOException i){
+
+	        }
+			//--------------------------------------------------------------------------------
+			myGrid = new Object [size][size];
+			aigrid = new Object [size][size];
+		        try {
+
+		            Scanner sc = new Scanner(new File("C:/Users/Feyza Grms/myGrid.txt"));
+		            int rows = size;
+		            int columns = size;
+		            Object[][] myfield = new Object[rows][columns];
+		            while (sc.hasNextLine()) {
+		                for (int i = 0; i < myfield.length; i++) {
+		                    String[] line = sc.nextLine().trim().split(" ");
+		                    for (int j = 0; j < line.length; j++) {
+		                        myfield[i][j] = Integer.parseInt(line[j]);
+		                        myGrid=myfield;
+		                   }
+		                }
+		            }
+		            System.out.println(Arrays.deepToString(myfield));
+
+		            for (int i = 0; i < myfield.length; i++) {
+		                for (int j = 0; j < myfield[i].length; j++)
+		                    System.out.print(myfield[i][j].toString() + ", ");
+		                System.out.println();
+		                System.out.println();
+		            }
+
+		        }catch (IOException i){
+
+		        }
+		        
+		        try {
+
+		            Scanner sc = new Scanner(new File("C:/Users/Feyza Grms/aigrid.txt"));
+		            int rows = size;
+		            int columns = size;
+		            Object[][] aifield = new Object[rows][columns];
+		            while (sc.hasNextLine()) {
+		                for (int i = 0; i < aifield.length; i++) {
+		                    String[] line = sc.nextLine().trim().split(" ");
+		                    for (int j = 0; j < line.length; j++) {
+		                        aifield[i][j] = Integer.parseInt(line[j]);
+		                        aigrid=aifield;
+		                   }
+		                }
+		            }
+		            System.out.println(Arrays.deepToString(aifield));
+
+		            for (int i = 0; i < aifield.length; i++) {
+		                for (int j = 0; j < aifield[i].length; j++)
+		                    System.out.print(aifield[i][j].toString() + ", ");
+		                System.out.println();
+		                System.out.println();
+		            }
+
+		        }catch (IOException i){
+
+		        }
+
+		        lp.repaint();
+		        lp.revalidate();
+		        updateGrid(myGrid, aigrid);
+		        
+		        myTurn=true;
+		        myTurn();
+		        
+		        
+		    }
+
+
+			
+		}
 		
-		lp.validate();
-	}
+		
+	
 	
 	/** <h1>Methode goPlaceShipsScreen</h1>
 	 * 	
@@ -367,7 +470,7 @@ public class Window extends JFrame{
 //					            System.out.println();
 //					        }
 							
-							mode=Gui.getMode();
+							
 							if (mode == 1 || mode == 2) {  // wenn host oder joined, dann ist aiGrid leer
 								aigrid = new Object[size][size];
 							}
@@ -520,8 +623,53 @@ public class Window extends JFrame{
 			
 			savi.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					
-	
+					//--------------------------------------------myGrid------------------------------------------------
+					Object[][] myGrid = getmyGrid();
+			        try (
+			                PrintStream output = new PrintStream(new File("C:/Users/Feyza Grms/myGrid.txt"));) {
+			            for (int i = 0; i < myGrid.length;i++) {
+			                String s= "";
+			                for (int j = 0; j < myGrid[i].length; j++) {
+			                    s+=  myGrid[i][j] + " ";
+			                }
+			                output.println(s);
+			            }
+			            output.close();
+			        } catch (FileNotFoundException z) {
+			            z.printStackTrace();
+			        }
+			        //-------------------------------------------aigrid---------------------------------------------------
+			        Object[][] aiGrid = getaigrid();
+			        try (
+			                PrintStream output = new PrintStream(new File("C:/Users/Feyza Grms/aigrid.txt"));) {
+			            for (int i = 0; i < aiGrid.length;i++) {
+			                String s= "";
+			                for (int j = 0; j < aiGrid[i].length; j++) {
+			                    s+=  aiGrid[i][j] + " ";
+			                }
+			                output.println(s);
+			            }
+			            output.close();
+			        } catch (FileNotFoundException z) {
+			            z.printStackTrace();
+			        }
+			        //--------------------------------------------size-----------------------------------------------
+			        
+			        		
+			        try (
+			                PrintStream output = new PrintStream(new File("C:/Users/Feyza Grms/size.txt"));) {
+			        	int s=size;
+			        	output.println(s);
+			            output.close();
+			        } catch (FileNotFoundException z) {
+			            z.printStackTrace();
+			        }
+			        
+			        quiti.setVisible(false);
+					setback.setVisible(false);
+					savi.setVisible(false);
+					setclicked=false;
+					lp.revalidate();
 				}
 			 });
 			
@@ -612,11 +760,17 @@ public class Window extends JFrame{
 	 */
 	public static void updateGrid(Object [][] my, Object [][] ai) {
 		
-		lp.remove(myFeld);
-		lp.remove(aiFeld);
-		lp.validate();
-//		myGrid = my;
-//		aigrid= ai;
+		if (mode != 3) {
+			lp.remove(myFeld);
+			lp.remove(aiFeld);
+			lp.validate();
+
+		}
+		if(mode==3) {
+			mode=4;
+		}
+		myGrid = my;
+		aigrid= ai;
 		// test
 		System.out.println("********** AI FELD **********************");
 		for (int i = 0; i < aigrid.length; i++) {
@@ -625,10 +779,11 @@ public class Window extends JFrame{
             System.out.println();
             System.out.println();
 		}
-		myFeld = new Spielfeld (my, size);
+
+		myFeld = new Spielfeld (myGrid, size);
 		myFeld.setBounds(50, 100, 520, 520);
 		lp.add(myFeld, (l+1),l+1);
-		aiFeld = new Spielfeld (size, ai);
+		aiFeld = new Spielfeld (size, aigrid);
 
 		aiFeld.setBounds(710,100, 520, 520);
 		lp.add(aiFeld, (l+1),l+1);
@@ -638,4 +793,3 @@ public class Window extends JFrame{
 		
 	}
 }
-
