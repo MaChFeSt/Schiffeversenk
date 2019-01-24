@@ -184,6 +184,13 @@ public class Gui extends Thread {
          	load.setBorderPainted(false);
      		load.setOpaque(false);
      		panelversusai.add(load);
+     		
+     		load.addActionListener(new ActionListener() {
+ 	            public void actionPerformed(ActionEvent e)
+ 	            {
+ 	            	// Hier muss das Spiel in das Spielfeld geladen werden
+						}
+					});
          	
        	
 	 
@@ -328,7 +335,7 @@ public class Gui extends Thread {
         		JLabel howtoplay4= new JLabel("firing shots by clicking on grid coordinates.");
         		JLabel howtoplay5= new JLabel("Your goal is to shoot down enemy ships");
         		JLabel howtoplay6= new JLabel("before he shoots down yours.");
-        		//Schriftart Ã¤ndern****************
+        		//Schriftart ÃƒÂ¤ndern****************
         		Font schriftart = new Font("SansSerif", Font.BOLD, 18);
         		Font schriftart1 = new Font("SansSerif", Font.PLAIN, 15);
         		howtoplay.setFont(schriftart);
@@ -338,7 +345,7 @@ public class Gui extends Thread {
         		howtoplay4.setFont(schriftart1);
         		howtoplay5.setFont(schriftart1);
         		howtoplay6.setFont(schriftart1);
-        		//Farbe Ã¤ndern**********************
+        		//Farbe ÃƒÂ¤ndern**********************
         		howtoplay.setForeground(Color.BLACK);
         		howtoplay1.setForeground(Color.BLACK);
         		howtoplay2.setForeground(Color.BLACK);
@@ -346,7 +353,7 @@ public class Gui extends Thread {
         		howtoplay4.setForeground(Color.BLACK);
         		howtoplay5.setForeground(Color.BLACK);
         		howtoplay6.setForeground(Color.BLACK);
-        		//JLabel hinzufÃ¼gen******************
+        		//JLabel hinzufÃƒÂ¼gen******************
         		panelhelp.add(howtoplay);
         		panelhelp.add(howtoplay1); 
         		panelhelp.add(howtoplay2);
@@ -355,7 +362,7 @@ public class Gui extends Thread {
         		panelhelp.add(howtoplay5);
         		panelhelp.add(howtoplay6);
         		
-        		//ZurÃ¼ck zum MenÃ¼ BUTTON**************
+        		//ZurÃƒÂ¼ck zum MenÃƒÂ¼ BUTTON**************
         		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
 	        	JButton menu = new JButton(iconmenu);
        		 		menu.setIcon(iconmenu);
