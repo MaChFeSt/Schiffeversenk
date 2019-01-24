@@ -19,9 +19,10 @@ public class Gui extends Thread {
 				  boardbottom = new JPanel(),
 				  boardleft = new JPanel(),
 				  boardright = new JPanel();
-	public Host host1;
+	public static Host host1;
+	public static Client client1;
 	public static boolean darkm = false;
-	public static int mode=0; // 1 = host , 2 = join
+	public static int mode = 0; // 1 = host , 2 = join, 3 = loaded game
 	public static JFrame frame;
 	/**
 	 *  Im Konstruktor wird das JFrame, die JPanel, die Hintergrundfarben, die JButtons und das Logo eingebettet
@@ -65,32 +66,32 @@ public class Gui extends Thread {
 	 
 	 
 
-	  	//einzelne Borderpanels in das Spielfeld panel
-		boardpanel.add(boardtop, BorderLayout.NORTH);
-		boardtop.setOpaque(true);
-		boardtop.setPreferredSize(new Dimension (1280,270));
-	 
-		boardpanel.add(boardleft, BorderLayout.WEST);
-		boardleft.setOpaque(false);
-		boardleft.setPreferredSize(new Dimension (490,400));
-		
-		boardpanel.add(boardright, BorderLayout.EAST);
-		boardright.setOpaque(false);
-		boardright.setPreferredSize(new Dimension (490,400));
-		
-		
-		//****************JPANEL NAME********************
-		 boardpanel.add(boardbottom, BorderLayout.SOUTH);
-		 boardbottom.setOpaque(true);
-		 boardbottom.setPreferredSize(new Dimension(1280,50));
-		 JPanel panelname = new JPanel();
-		 boardbottom.add(panelname);	 
-		 JLabel name = new JLabel("Created by: Stefanie, Feyzanur, Christian, Marcus");
-		 Font schriftart = new Font("SansSerif", Font.BOLD, 15 );
-		 name.setFont(schriftart);
-		 name.setForeground(Color.BLACK);
-		 panelname.setOpaque(false);
-		 panelname.add(name);
+  	//einzelne Borderpanels in das Spielfeld panel
+	boardpanel.add(boardtop, BorderLayout.NORTH);
+	boardtop.setOpaque(true);
+	boardtop.setPreferredSize(new Dimension (1280,270));
+ 
+	boardpanel.add(boardleft, BorderLayout.WEST);
+	boardleft.setOpaque(false);
+	boardleft.setPreferredSize(new Dimension (490,400));
+	
+	boardpanel.add(boardright, BorderLayout.EAST);
+	boardright.setOpaque(false);
+	boardright.setPreferredSize(new Dimension (490,400));
+	
+	
+	//****************JPANEL NAME********************
+	 boardpanel.add(boardbottom, BorderLayout.SOUTH);
+	 boardbottom.setOpaque(true);
+	 boardbottom.setPreferredSize(new Dimension(1280,50));
+	 JPanel panelname = new JPanel();
+	 boardbottom.add(panelname);	 
+	 JLabel name = new JLabel("Created by: Stefanie, Feyzanur, Christian, Marcus");
+	 Font schriftart = new Font("SansSerif", Font.BOLD, 15 );
+	 name.setFont(schriftart);
+	 name.setForeground(Color.BLACK);
+	 panelname.setOpaque(false);
+	 panelname.add(name);
 		
 	 	
 	 /**
@@ -151,70 +152,67 @@ public class Gui extends Thread {
 	 
 	//****************ACTION LISTENER VERSUS KI********************
 	 versusai.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent e)
-         {
-         	panel.setVisible(false);
-         	JPanel panelversusai = new JPanel();
-         	panelversusai.setOpaque(false);
-         	boardpanel.add(panelversusai);
-         	
-         	ImageIcon iconnewgame = new ImageIcon(Gui.class.getResource("newgame.png"));
-         	JButton newgame = new JButton(iconnewgame);
-         	newgame.setIcon(iconnewgame);
-         	newgame.setContentAreaFilled(false);
-         	newgame.setBorderPainted(false);
-     		newgame.setOpaque(false);
-     		panelversusai.add(newgame);
-     		
-     		
-     		 newgame.addActionListener(new ActionListener() {
-	     	            public void actionPerformed(ActionEvent e)
-	     	            {
-	     	            	panel.setVisible(false);
-	     	            	new Window();
-	     	            	frame.setVisible(false);
-								}
-							});
-     		
-         	
-     		ImageIcon iconload = new ImageIcon(Gui.class.getResource("load.png"));
-         	JButton load = new JButton(iconload);
-         	load.setIcon(iconload);
-         	load.setContentAreaFilled(false);
-         	load.setBorderPainted(false);
-     		load.setOpaque(false);
-     		panelversusai.add(load);
-     		
-     		load.addActionListener(new ActionListener() {
- 	            public void actionPerformed(ActionEvent e)
- 	            {
- 	            	// Hier muss das Spiel in das Spielfeld geladen werden
- 	            	mode=3;
- 	            	new Window();
- 	            	frame.setVisible(false);
- 	            }
-					});
-         	
-       	
-     		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
-			JButton menu = new JButton(iconmenu);
-			menu.setIcon(iconmenu);
-			menu.setContentAreaFilled(false);
-			menu.setBorderPainted(false);
-			menu.setOpaque(false);
-			panelversusai.add(menu);
+            public void actionPerformed(ActionEvent e)
+            {
+            	panel.setVisible(false);
+             	JPanel panelversusai = new JPanel();
+             	panelversusai.setOpaque(false);
+             	boardpanel.add(panelversusai);
 
-			menu.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e)
-				{
-					panelversusai.setVisible(false);
-					panel.setVisible(true);
-				}
-			});
+             	ImageIcon iconnewgame = new ImageIcon(Gui.class.getResource("newgame.png"));
+             	JButton newgame = new JButton(iconnewgame);
+             	newgame.setIcon(iconnewgame);
+             	newgame.setContentAreaFilled(false);
+             	newgame.setBorderPainted(false);
+         		newgame.setOpaque(false);
+         		panelversusai.add(newgame);
+
+
+         		 newgame.addActionListener(new ActionListener() {
+    	     	            public void actionPerformed(ActionEvent e)
+    	     	            {
+    	     	            	panel.setVisible(false);
+    	     	            	new Window();
+    	     	            	frame.setVisible(false);
+    								}
+    							});
+
+
+         		ImageIcon iconload = new ImageIcon(Gui.class.getResource("load.png"));
+             	JButton load = new JButton(iconload);
+             	load.setIcon(iconload);
+             	load.setContentAreaFilled(false);
+             	load.setBorderPainted(false);
+         		load.setOpaque(false);
+         		panelversusai.add(load);
+            	
+         		load.addActionListener(new ActionListener() {
+     	            public void actionPerformed(ActionEvent e)
+     	            {
+     	            	mode=3;
+     	            	new Window();
+     	            	frame.setVisible(false);			   
+     	            }
+    			});
+         		
+         		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
+    			JButton menu = new JButton(iconmenu);
+    			menu.setIcon(iconmenu);
+    			menu.setContentAreaFilled(false);
+    			menu.setBorderPainted(false);
+    			menu.setOpaque(false);
+    			panelversusai.add(menu);
+
+    			menu.addActionListener(new ActionListener() {
+    				public void actionPerformed(ActionEvent e)
+    				{
+    					panelversusai.setVisible(false);
+    					panel.setVisible(true);
+    				}
+    			});
 	 
-         }
-     });
-
+            }
+        });
 	 
 	//****************ACTION LISTENER NETWORK********************
 	 network.addActionListener(new ActionListener() {
@@ -251,8 +249,9 @@ public class Gui extends Thread {
 								public void actionPerformed(ActionEvent e){
 									mode = 2;
 									String eingabe = textjoin.getText();
-									Client c = new Client(eingabe, 4444);
-									c.start();	
+									client1 = new Client(eingabe, 4444);
+									client1.start();
+									client1.listen();
 								}
 							});
 
@@ -353,7 +352,7 @@ public class Gui extends Thread {
         		JLabel howtoplay4= new JLabel("firing shots by clicking on grid coordinates.");
         		JLabel howtoplay5= new JLabel("Your goal is to shoot down enemy ships");
         		JLabel howtoplay6= new JLabel("before he shoots down yours.");
-        		//Schriftart ÃƒÂ¤ndern****************
+        		//Schriftart aendern****************
         		Font schriftart = new Font("SansSerif", Font.BOLD, 18);
         		Font schriftart1 = new Font("SansSerif", Font.PLAIN, 15);
         		howtoplay.setFont(schriftart);
@@ -363,7 +362,7 @@ public class Gui extends Thread {
         		howtoplay4.setFont(schriftart1);
         		howtoplay5.setFont(schriftart1);
         		howtoplay6.setFont(schriftart1);
-        		//Farbe ÃƒÂ¤ndern**********************
+        		//Farbe aendern**********************
         		howtoplay.setForeground(Color.BLACK);
         		howtoplay1.setForeground(Color.BLACK);
         		howtoplay2.setForeground(Color.BLACK);
@@ -371,7 +370,7 @@ public class Gui extends Thread {
         		howtoplay4.setForeground(Color.BLACK);
         		howtoplay5.setForeground(Color.BLACK);
         		howtoplay6.setForeground(Color.BLACK);
-        		//JLabel hinzufÃƒÂ¼gen******************
+        		//JLabel hinzufuegen******************
         		panelhelp.add(howtoplay);
         		panelhelp.add(howtoplay1); 
         		panelhelp.add(howtoplay2);
@@ -380,7 +379,7 @@ public class Gui extends Thread {
         		panelhelp.add(howtoplay5);
         		panelhelp.add(howtoplay6);
         		
-        		//ZurÃƒÂ¼ck zum MenÃƒÂ¼ BUTTON**************
+        		//Zurueck zum Menu BUTTON**************
         		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
 	        	JButton menu = new JButton(iconmenu);
        		 		menu.setIcon(iconmenu);
@@ -518,6 +517,12 @@ public class Gui extends Thread {
 		}
 }
 	
+	
+	/**Damit die anderen Klassen wissen, in welchem Modus das Spiel ausgefuehrt wird, 
+	 * kann man das hier abfragen
+	 * 0 = AI Spiel, 1 = Hosted Game, 2 = Joined Game, 3 = Loaded Game
+	 * @mode
+	 */
 	public static int getMode() {
 		return mode;
 	}
