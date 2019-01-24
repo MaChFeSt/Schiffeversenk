@@ -21,8 +21,8 @@ public class Gui extends Thread {
 				  boardright = new JPanel();
 	public Host host1;
 	public static boolean darkm = false;
-	 
-	
+	public static int mode=0; // 1 = host , 2 = join
+	public static JFrame frame;
 	/**
 	 *  Im Konstruktor wird das JFrame, die JPanel, die Hintergrundfarben, die JButtons und das Logo eingebettet
 	 *  
@@ -30,7 +30,7 @@ public class Gui extends Thread {
 	public Gui(){
 	
 	//*****************JFRAME******************
-	 JFrame frame = new JFrame();	 
+	 frame = new JFrame();	 
 	 frame.setTitle("Schiffe versenken");
 	 frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	 frame.setSize(1280,720);
@@ -194,10 +194,10 @@ public class Gui extends Thread {
 			        		paneljoin.add(textjoin);
 			        		textjoin.addActionListener(new java.awt.event.ActionListener(){
 								public void actionPerformed(ActionEvent e){
+									mode = 2;
 									String eingabe = textjoin.getText();
-
 									Client c = new Client(eingabe, 4444);
-									c.start();
+									c.start();	
 								}
 							});
 
@@ -250,6 +250,7 @@ public class Gui extends Thread {
 									warteAufConnection(host1);
 
 									if(host1.isConnected()){
+										mode= 1;
 										panel.setVisible(false);
 										new Window();
 										frame.setVisible(false);
@@ -297,7 +298,7 @@ public class Gui extends Thread {
         		JLabel howtoplay4= new JLabel("firing shots by clicking on grid coordinates.");
         		JLabel howtoplay5= new JLabel("Your goal is to shoot down enemy ships");
         		JLabel howtoplay6= new JLabel("before he shoots down yours.");
-        		//Schriftart ändern****************
+        		//Schriftart Ã¤ndern****************
         		Font schriftart = new Font("SansSerif", Font.BOLD, 18);
         		Font schriftart1 = new Font("SansSerif", Font.PLAIN, 15);
         		howtoplay.setFont(schriftart);
@@ -307,7 +308,7 @@ public class Gui extends Thread {
         		howtoplay4.setFont(schriftart1);
         		howtoplay5.setFont(schriftart1);
         		howtoplay6.setFont(schriftart1);
-        		//Farbe ändern**********************
+        		//Farbe Ã¤ndern**********************
         		howtoplay.setForeground(Color.BLACK);
         		howtoplay1.setForeground(Color.BLACK);
         		howtoplay2.setForeground(Color.BLACK);
@@ -315,7 +316,7 @@ public class Gui extends Thread {
         		howtoplay4.setForeground(Color.BLACK);
         		howtoplay5.setForeground(Color.BLACK);
         		howtoplay6.setForeground(Color.BLACK);
-        		//JLabel hinzufügen******************
+        		//JLabel hinzufÃ¼gen******************
         		panelhelp.add(howtoplay);
         		panelhelp.add(howtoplay1); 
         		panelhelp.add(howtoplay2);
@@ -324,7 +325,7 @@ public class Gui extends Thread {
         		panelhelp.add(howtoplay5);
         		panelhelp.add(howtoplay6);
         		
-        		//Zurück zum Menü BUTTON**************
+        		//ZurÃ¼ck zum MenÃ¼ BUTTON**************
         		ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
 	        	JButton menu = new JButton(iconmenu);
        		 		menu.setIcon(iconmenu);
@@ -461,6 +462,10 @@ public class Gui extends Thread {
 			}
 		}
 }
+	
+	public static int getMode() {
+		return mode;
+	}
 	
 	public void run() {
 
