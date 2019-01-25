@@ -106,13 +106,13 @@ public class Window extends JFrame{
 		won = new JLabel();
 		won.setIcon(wonim);
 	    won.setBounds(170,0, 900, 506);
-	    lp.add(won, (100),100);
+	    lp.add(won, (l+100),l+100);
 	    
 	    ImageIcon lostim = new ImageIcon(Window.class.getResource("Losing.png"));
 		lost = new JLabel();
 		lost.setIcon(lostim);
 	    lost.setBounds(170,0, 900, 506);
-	    lp.add(lost, (100),100);
+	    lp.add(lost, (l+100),l+100);
 	    
 	    ImageIcon iconquit = new ImageIcon(Gui.class.getResource("quit.png"));
 		 quit = new JButton(iconquit);
@@ -121,7 +121,7 @@ public class Window extends JFrame{
 		 quit.setBorderPainted(false);
 		 quit.setOpaque(false);
 		 quit.setBounds(380, 500, 200, 71);
-		 lp.add(quit,(102),102);
+		 lp.add(quit,(l+102),l+102);
 		
 		 quit.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class Window extends JFrame{
 			menu.setBorderPainted(false);
 			menu.setOpaque(false);
 			menu.setBounds(700, 500, 200, 71);
-			lp.add(menu,(102),102);
+			lp.add(menu,(l+102),l+102);
 
 			menu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e)
