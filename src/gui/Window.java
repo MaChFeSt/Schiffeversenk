@@ -106,13 +106,13 @@ public class Window extends JFrame{
 		won = new JLabel();
 		won.setIcon(wonim);
 	    won.setBounds(170,0, 900, 506);
-	    lp.add(won, (l+100),l+100);
+	    lp.add(won, (l+1000),l+1000);
 	    
 	    ImageIcon lostim = new ImageIcon(Window.class.getResource("Losing.png"));
 		lost = new JLabel();
 		lost.setIcon(lostim);
 	    lost.setBounds(170,0, 900, 506);
-	    lp.add(lost, (l+100),l+100);
+	    lp.add(lost, (l+1000),l+1000);
 	    
 	    ImageIcon iconquit = new ImageIcon(Gui.class.getResource("quit.png"));
 		 quit = new JButton(iconquit);
@@ -121,7 +121,7 @@ public class Window extends JFrame{
 		 quit.setBorderPainted(false);
 		 quit.setOpaque(false);
 		 quit.setBounds(380, 500, 200, 71);
-		 lp.add(quit,(l+102),l+102);
+		 lp.add(quit,(l+1002),l+1002);
 		
 		 quit.addActionListener(new ActionListener() {
 			 public void actionPerformed(ActionEvent e) {
@@ -136,7 +136,7 @@ public class Window extends JFrame{
 			menu.setBorderPainted(false);
 			menu.setOpaque(false);
 			menu.setBounds(700, 500, 200, 71);
-			lp.add(menu,(l+102),l+102);
+			lp.add(menu,(l+1002),l+1002);
 
 			menu.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e)
@@ -805,11 +805,11 @@ public class Window extends JFrame{
 
 		myFeld = new Spielfeld (myGrid, size);
 		myFeld.setBounds(50, 100, 520, 520);
-		lp.add(myFeld, (l+5),l+5);
+		lp.add(myFeld, (l+2),l+2);
 		
 		aiFeld = new Spielfeld (size, aigrid);
 		aiFeld.setBounds(710,100, 520, 520);
-		lp.add(aiFeld, (l+6),l+6);
+		lp.add(aiFeld, (l+2),l+2);
 		l++;
 		lp.repaint();
 		lp.validate();
