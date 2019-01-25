@@ -227,14 +227,14 @@ public class Window extends JFrame{
 		
 		if (mode == 1) {   ///HOST SPIEL
 			
-			// wir mÃ¼ssen die Boardsize senden
+			// wir müssen die Boardsize senden
 			// METHODE, DIE IN AI GRID 20 oder 21 reinschreibt!
-			// Ã¼berprÃ¼fen ob gewonnen 
+			// überprüfen ob gewonnen 
 		}
 		
 		if (mode == 2) {   ///JOIN SPIEL
 			
-			/// WIR MÃœSSEN DIE BOARDSIZE BEKOMMEN
+			/// WIR MÜSSEN DIE BOARDSIZE BEKOMMEN
 
 			size = Client.size;
 			setSizeText.setVisible(false);
@@ -263,8 +263,8 @@ public class Window extends JFrame{
 	                    size=fieldsize[0][0];
 	                    }
 	                }
-	                sc.close();
 	            }
+	            sc.close();
 
 	        }catch (IOException i){
 
@@ -285,9 +285,9 @@ public class Window extends JFrame{
 		                        myfield[i][j] = Integer.parseInt(line[j]);
 		                        myGrid=myfield;
 		                   }
-		                    sc.close();
 		                }
 		            }
+		            sc.close();
 		            System.out.println(Arrays.deepToString(myfield));
 
 		            for (int i = 0; i < myfield.length; i++) {
@@ -316,6 +316,7 @@ public class Window extends JFrame{
 		                   }
 		                }
 		            }
+		            sc.close();
 		            System.out.println(Arrays.deepToString(aifield));
 
 		            for (int i = 0; i < aifield.length; i++) {
@@ -324,7 +325,7 @@ public class Window extends JFrame{
 		                System.out.println();
 		                System.out.println();
 		            }
-		            sc.close();
+		          
 		        }catch (IOException i){
 
 		        }
@@ -346,7 +347,7 @@ public class Window extends JFrame{
 	/** <h1>Methode goPlaceShipsScreen</h1>
 	 * 	
 	 * hier wechselt man in den Bildschirm, bei dem man die Schiffe platzieren kann.
-	 * Mit einem Click auf den Place Button werden die Schiffe zufÃƒÂ¤llig platziert.
+	 * Mit einem Click auf den Place Button werden die Schiffe zufÃ¤llig platziert.
 	 * Diesen Vorgang kann man beliebig oft wiederholen.
 	 * Bei erfolgreichem Platzieren erscheint der Start-Button, mit dem man das Spiel startet. 
 	 */
@@ -470,7 +471,7 @@ public class Window extends JFrame{
 									
 								}
 							}
-							else { // wenn versusAI, dann wird der array mit Schiffen gefÃ¼llt.
+							else { // wenn versusAI, dann wird der array mit Schiffen gefüllt.
 								AI a = new AI();
 								int end=0;
 								aigrid = a.setaiships(size);
