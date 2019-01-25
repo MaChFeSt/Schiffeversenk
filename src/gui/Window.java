@@ -55,6 +55,7 @@ public class Window extends JFrame{
 	 * 	Hier werden alle JComponents auf den Panel gebaut.
 	 * 	Das Spiel wird im Spielfeldgroesse-Bildschirm gestartet.
 	 */
+	@SuppressWarnings("resource")
 	public Window () {
 		
 		startint= 0;
