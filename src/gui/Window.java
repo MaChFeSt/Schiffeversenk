@@ -42,7 +42,6 @@ public class Window extends JFrame{
 	public static JLabel won;
 	public static JLabel lost;
 	public JButton place, start;
-	public static JButton menu;
 	public static JButton quit;
 	public Spielfeld feld;
 	public static Spielfeld myFeld, aiFeld;
@@ -55,7 +54,7 @@ public class Window extends JFrame{
 	 * 	Hier werden alle JComponents auf den Panel gebaut.
 	 * 	Das Spiel wird im Spielfeldgroesse-Bildschirm gestartet.
 	 */
-	@SuppressWarnings("resource")
+
 	public Window () {
 		
 		startint= 0;
@@ -128,33 +127,7 @@ public class Window extends JFrame{
 				 System.exit(0);
 			 }
 		 });
-	    
-		 ImageIcon iconmenu = new ImageIcon(Gui.class.getResource("menu.png"));
-			menu = new JButton(iconmenu);
-			menu.setIcon(iconmenu);
-			menu.setContentAreaFilled(false);
-			menu.setBorderPainted(false);
-			menu.setOpaque(false);
-			menu.setBounds(700, 500, 200, 71);
-			lp.add(menu,(l+1002),l+1002);
-
-			menu.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e)
-				{
-					dispose();
-					SwingUtilities.invokeLater(new Runnable() {
-						@Override
-						public void run() {
-							new Gui();
-						}
-					});
-					
-					
-	            	lp.setVisible(false);
-				}
-			});
-		 
-		menu.setVisible(false);
+	  
 		quit.setVisible(false);
 		lost.setVisible(false);
 		won.setVisible(false);
@@ -290,6 +263,7 @@ public class Window extends JFrame{
 	                    size=fieldsize[0][0];
 	                    }
 	                }
+	                sc.close();
 	            }
 
 	        }catch (IOException i){
@@ -311,6 +285,7 @@ public class Window extends JFrame{
 		                        myfield[i][j] = Integer.parseInt(line[j]);
 		                        myGrid=myfield;
 		                   }
+		                    sc.close();
 		                }
 		            }
 		            System.out.println(Arrays.deepToString(myfield));
@@ -349,7 +324,7 @@ public class Window extends JFrame{
 		                System.out.println();
 		                System.out.println();
 		            }
-
+		            sc.close();
 		        }catch (IOException i){
 
 		        }
@@ -748,13 +723,11 @@ public class Window extends JFrame{
 				if(SpielLogikAI.aiSpielfeldDurchlaufen()) {
 					System.out.println("YOU WIN");
 					won.setVisible(true);
-					menu.setVisible(true);
 					quit.setVisible(true);
 				}
 				if(SpielLogikAI.spielerSpielfeldDurchlaufen()) {
 					System.out.println("YOU LOST");
 					lost.setVisible(true);
-					menu.setVisible(true);
 					quit.setVisible(true);
 				}
 			
