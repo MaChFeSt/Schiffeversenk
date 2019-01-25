@@ -738,7 +738,7 @@ public class Window extends JFrame{
 			//WArten auf treffer
 //			Gui.client1.listen();
 		}
-		if(mode==0) {
+		if(mode==0 || mode == 3 || mode == 4) {
 			if(aishot.aischiesst(size, myGrid)) {
 				updateGrid(myGrid, aigrid);	
 				lp.validate();
