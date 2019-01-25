@@ -60,13 +60,11 @@ public class SpielLogikAI {
 		        if(aiSpielfeldDurchlaufen()) {
 		            System.out.println("YOU WIN");
 		            Window.won.setVisible(true);
-		            Window.menu.setVisible(true);
 		            Window.quit.setVisible(true);
 		        }
 		        if(spielerSpielfeldDurchlaufen()) {
 		            System.out.println("YOU LOST");
 		            Window.lost.setVisible(true);
-		            Window.menu.setVisible(true);
 		            Window.quit.setVisible(true);
 		        }
             }
